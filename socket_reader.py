@@ -58,7 +58,7 @@ class Reader(object):
                     # Interpret the received data
                     splittedData = rawData.split(',')
                     if label is None or label == splittedData[0]:
-                        return splittedData[0], np.array([*map(dtype, splittedData[1:])])
+                        return splittedData[0], np.array(list(map(dtype, splittedData[1:])))
                 except ValueError:
                     pass
                 print(rawData)

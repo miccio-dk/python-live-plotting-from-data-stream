@@ -20,7 +20,7 @@ class Reader(object):
             dtype: data type that the data is converted to if raw is false """
         while True:
             # Read one byte at a time
-            rawData = ser.readline()
+            rawData = self.ser.readline()
             try:
                 decodedData = rawData.decode()
             except UnicodeDecodeError:
@@ -33,9 +33,9 @@ class Reader(object):
 
             try:
                 # Interpret the received data
-                splittedData = rawData.split(',')
+                splittedData = decodedData.split(',')
                 if label is None or label == splittedData[0]:
-                    return splittedData[0], np.array([*map(dtype, splittedData[1:])])
+                    return splittedData[0], np.array(list(map(dtype, splittedData[1:])))
             except ValueError:
                 pass
             print(rawData)

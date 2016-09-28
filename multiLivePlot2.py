@@ -98,9 +98,9 @@ class MultiLivePlot(object):
             self.rings[s][N, :] = data
             self.xs[s][N] = self.indexes[s]
             self.indexes[s] += 1
-            return s, data
         else:
             print(s)
+        return s, data
 
     def getLinesPerType(self, label, reader):
         s, data = self.reader(dtype=float)
