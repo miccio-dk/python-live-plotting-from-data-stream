@@ -6,107 +6,105 @@ import time
 import numpy as np
 from matplotlib import pyplot as plt
 
-allGood = 0
-if len(sys.argv) > 2:
-    allGood = 1
-    if sys.argv[1] == 'serial':
-        from serial_reader import Reader
-    elif sys.argv[1] == 'socket':
-        from socket_reader import Reader
-    else:
-        allGood = 0
-    labels = sys.argv[2:]
-    nLabels = len(labels)
 
-if not allGood:
-    print("Usage: <reader (serial/socket)> <label(s)>")
-    sys.exit()
+class MultiLivePlot(object):
+    def __init__(self, labels, reader, n):
+        self.labels = labels
+        self.reader = reader
+        # Mostly plotting related stuff from here on
+        self.n = n
+        self.axs = {}
+        self.lineSets = {}
+        self.rings = {}
+        self.xs = {}
+        self.indexes = {}
+        self.min_ = {}
+        self.max_ = {}
+        self.ls = {}
 
-n = 1000
+        self.fig = plt.figure()
+        self.fig.canvas.mpl_connect('key_press_event', self.press)
+        for i, s in enumerate(labels):
+            ax = self.fig.add_subplot(len(labels), 1, i + 1)
+            self.axs[s] = ax
+            ax.set_xlim(0, n)
+            ax.set_ylim(-2, 2)
+            self.lineSets[s] = []
+            self.ls[s] = self.getLinesPerType(s, reader)
+            for j in range(self.ls[s]):
+                self.lineSets[s].append(ax.plot([], [], '.', label=chr(ord('a')+j))[0])
+            ax.set_title(s)
+            ax.legend(loc=2)
+            self.rings[s] = np.zeros((n, self.ls[s]))
+            self.xs[s] = np.zeros(n)
+            self.indexes[s] = 0
+            self.min_[s] = float('inf')
+            self.max_[s] = -float('inf')
 
+        print("\nNumber of data points in each label:")
+        print(self.ls)
 
-def getLinesPerType(label, reader):
-    s, data = reader(dtype=float)
-    if s == label:
-        if 1 < len(data) <= 15:
-            return len(data)
-    return getLinesPerType(label, reader)
+        print("\nPress x to resize y axes. Press q to quit.")
 
-def press(event):
-    if event.key == 'x':
-        for s in min_:
-            min_[s] = float('inf')
-        for s in max_:
-            max_[s] = -float('inf')
+        self.timeNow = time.time()
+        self.c = 0
 
-    elif event.key == 'q':
-        plt.close(event.canvas.figure)
-        reader.closeConnection()
-        sys.exit()
+    def update(self):
+        self.c += 1
+        s, data = self.getData()
+        if s in self.labels and len(data) == self.ls[s]:
+            
+            if time.time() - self.timeNow > 0.03:
+                self.updatePlot()
+                self.timeNow = time.time()
+        else:
+            print(s)
 
-reader = Reader()
+    def updatePlot(self):
+        for s in self.labels:
+            for j in range(self.ls[s]):
+                self.lineSets[s][j].set_data(self.xs[s], self.rings[s][:, j])
+            if self.rings[s].min() < self.min_[s]:
+                if self.rings[s].min() == 0 and self.c < self.n:
+                    self.rings[s][N:, :] = data.min()
 
-axs = {}
-lineSets = {}
-rings = {}
-xs = {}
-indexes = {}
-min_ = {}
-max_ = {}
-ls = {}
+                self.min_[s] = self.rings[s].min()
+                self.axs[s].set_ylim(self.min_[s], self.max_[s])
+            if self.rings[s].max() > self.max_[s]:
+                if self.rings[s].max() == 0 and self.c < self.n:
+                    self.rings[s][N:, :] = data.max()
 
-fig = plt.figure()
-fig.canvas.mpl_connect('key_press_event', press)
-for i, s in enumerate(labels):
-    ax = fig.add_subplot(len(labels), 1, i + 1)
-    axs[s] = ax
-    ax.set_xlim(0, n)
-    ax.set_ylim(-2, 2)
-    lineSets[s] = []
-    ls[s] = getLinesPerType(s, reader)
-    for j in range(ls[s]):
-        lineSets[s].append(ax.plot([], [], '.', label=chr(ord('a')+j))[0])
-    ax.set_title(s)
-    ax.legend(loc=2)
-    rings[s] = np.zeros((n, ls[s]))
-    xs[s] = np.zeros(n)
-    indexes[s] = 0
-    min_[s] = float('inf')
-    max_[s] = -float('inf')
+                self.max_[s] = self.rings[s].max()
+                self.axs[s].set_ylim(self.min_[s], self.max_[s])
+            self.axs[s].set_xlim(self.indexes[s] - self.n, self.indexes[s])
+        plt.pause(0.001)
 
-print("\nNumber of data points in each label:")
-print(ls)
+    def press(self, event):
+        if event.key == 'x':
+            for s in self.min_:
+                self.min_[s] = float('inf')
+            for s in self.max_:
+                self.max_[s] = -float('inf')
 
-print("\nPress x to resize y axes. Press q to quit.")
+        elif event.key == 'q':
+            plt.close(event.canvas.figure)
+            self.reader.closeConnection()
+            sys.exit()
 
-timeNow = time.time()
-c = 0
-while True:
-    s, data = reader(dtype=float)
-    c += 1
-    if s in labels and len(data) == ls[s]:
-        N = indexes[s] % n
-        rings[s][N, :] = data
-        xs[s][N] = indexes[s]
-        indexes[s] += 1
-        if time.time() - timeNow > 0.3:
-            for s in labels:
-                for j in range(ls[s]):
-                    lineSets[s][j].set_data(xs[s], rings[s][:, j])
-                if rings[s].min() < min_[s]:
-                    if rings[s].min() == 0 and c < n:
-                        rings[s][N:, :] = data.min()
+    def getData(self):
+        s, data = self.reader(dtype=float)
+        if s in self.labels and len(data) == self.ls[s]:
+            N = self.indexes[s] % self.n
+            self.rings[s][N, :] = data
+            self.xs[s][N] = self.indexes[s]
+            self.indexes[s] += 1
+            return s, data
+        else:
+            print(s)
 
-                    min_[s] = rings[s].min()
-                    axs[s].set_ylim(min_[s], max_[s])
-                if rings[s].max() > max_[s]:
-                    if rings[s].max() == 0 and c < n:
-                        rings[s][N:, :] = data.max()
-
-                    max_[s] = rings[s].max()
-                    axs[s].set_ylim(min_[s], max_[s])
-                axs[s].set_xlim(indexes[s] - n, indexes[s])
-            plt.pause(0.001)
-            timeNow = time.time()
-    else:
-        print(s)
+    def getLinesPerType(self, label, reader):
+        s, data = self.reader(dtype=float)
+        if s == label:
+            if 1 < len(data) <= 15:
+                return len(data)
+        return self.getLinesPerType(label, reader)
