@@ -20,7 +20,12 @@ class Reader(object):
             dtype: data type that the data is converted to if raw is false """
         while True:
             # Read one byte at a time
-            rawData = self.ser.readline()
+            rawData = ser.readline()
+            try:
+                decodedData = rawData.decode()
+            except UnicodeDecodeError:
+                print(rawData)
+                continue
             
             if raw:
                 # return whatever was received

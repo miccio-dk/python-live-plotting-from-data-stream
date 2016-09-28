@@ -93,7 +93,6 @@ while True:
             for s in labels:
                 for j in range(ls[s]):
                     lineSets[s][j].set_data(xs[s], rings[s][:, j])
-                timeNow = time.time()
                 if rings[s].min() < min_[s]:
                     if rings[s].min() == 0 and c < n:
                         rings[s][N:, :] = data.min()
@@ -108,5 +107,6 @@ while True:
                     axs[s].set_ylim(min_[s], max_[s])
                 axs[s].set_xlim(indexes[s] - n, indexes[s])
             plt.pause(0.001)
+            timeNow = time.time()
     else:
         print(s)
