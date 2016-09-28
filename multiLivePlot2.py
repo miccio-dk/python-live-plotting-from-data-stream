@@ -6,15 +6,20 @@ import time
 import numpy as np
 from matplotlib import pyplot as plt
 
-if len(sys.argv) > 1:
-    nSensors = len(sys.argv) - 1
-    labels = [sys.argv[s + 1] for s in range(nSensors)]
-    if len(sys.argv) > 2 and sys.argv[2] == 'serial':
+allGood = 0
+if len(sys.argv) > 2:
+    allGood = 1
+    if sys.argv[1] == 'serial':
         from serial_reader import Reader
-    else:
+    elif sys.argv[1] == 'socket':
         from socket_reader import Reader
-else:
-    print("Specify label(s)")
+    else:
+        allGood = 0
+    labels = sys.argv[2:]
+    nLabels = len(labels)
+
+if not allGood:
+    print("Usage: <reader (serial/socket)> <label(s)>")
     sys.exit()
 
 n = 1000

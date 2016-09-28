@@ -4,13 +4,14 @@ import time
 import serial
 
 if len(sys.argv) < 2:
-    print("Usage: <server hostname>, <port (optional>")
-else:
+    print("Usage: <server hostname>, <port (optional)>")
     sys.exit()
 
-
 hostName = sys.argv[1]
-hostIp = socket.gethostbyname_ex(hostName)[2][0]
+if '.local' in hostName:
+    hostIp = socket.gethostbyname_ex(hostName)[2][0]
+else:
+    hostIp = sys.argv[1]
 
 if len(sys.argv) > 2:
     hostPort = int(sys.argv[2])
