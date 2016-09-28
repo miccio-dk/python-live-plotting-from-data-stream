@@ -25,14 +25,19 @@ class MultiLivePlotAni(object):
 
         self.fig = plt.figure()
         self.fig.canvas.mpl_connect('key_press_event', self.press)
-        # ax = self.fig.add_subplot(1, 1, 1)
+        maxTries = 10
         for i, s in enumerate(labels):
             ax = self.fig.add_subplot(len(labels), 1, i + 1)
             self.axs[s] = ax
             ax.set_xlim(0, n)
             ax.set_ylim(-2, 2)
             self.lineSets[s] = []
-            self.ls[s] = self.getLinesPerType(s, reader)
+            for i in range(maxTries):
+                length = self.getLinesPerType(s, reader)
+                if length is not None:
+                    print(length)
+                    self.ls[s] = length
+                    break
             for j in range(self.ls[s]):
                 self.lineSets[s].append(ax.plot([], [], '.', label=chr(ord('a') + j))[0])
             ax.set_title(s)
@@ -49,7 +54,7 @@ class MultiLivePlotAni(object):
         print("\nPress x to resize y axes. Press q to quit.")
 
     def run(self):
-        anim = FuncAnimation(self.fig, self.update_lines, interval=10, blit=True)
+        anim = FuncAnimation(self.fig, self.update_lines, blit=True)
         plt.show()
 
     def getData(self):
