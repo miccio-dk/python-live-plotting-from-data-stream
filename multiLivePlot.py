@@ -81,7 +81,7 @@ class MultiLivePlotAni(object):
 
     def update_lines(self, frame):
         timeAtStart = time.time()
-        while time.time() - timeAtStart < 0.1:
+        while time.time() - timeAtStart < 0.03:
             self.getData()
 
         for s in self.labels:
