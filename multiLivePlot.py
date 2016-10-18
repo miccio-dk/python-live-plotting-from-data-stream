@@ -100,7 +100,6 @@ class MultiLivePlot(object):
             self.min_[label] = float('inf')
             self.max_[label] = -float('inf')
 
-
     def press(self, event):
         if event.key == 'x':
             self.reset()
@@ -112,7 +111,6 @@ class MultiLivePlot(object):
             plt.close(event.canvas.figure)
             self.reader.closeConnection()
             sys.exit()
-
 
     def getData(self):
         s, data = self.reader()
