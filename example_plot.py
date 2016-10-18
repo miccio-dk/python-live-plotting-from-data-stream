@@ -1,38 +1,29 @@
 import sys
 from multiLivePlot import MultiLivePlot as plotter
 
-allGood = 0
 if len(sys.argv) > 1:
-    allGood = 1
     if sys.argv[1] == 'serial':
         from serial_reader import Reader
+        reader = Reader(port='/dev/ttyUSB0', baudrate=115200)
+
     elif sys.argv[1] == 'socket':
         from socket_reader import Reader
+        reader = Reader(port=50007)
+
     elif sys.argv[1] == 'pipe':
         from pipe_reader import Reader
+        reader = Reader()
+
     else:
-        allGood = 0
+        print("Usage: <reader (serial/socket)> <labels (optional)>")
+        sys.exit()
     if len(sys.argv) > 2:
         labels = sys.argv[2:]
     else:
         labels = []
 
-if not allGood:
-    print("Usage: <reader (serial/socket)> <labels (optinal)> ")
-    sys.exit()
-
-
 # Number data "packages" to plot at the same time
 n = 1000
-
-# Socket:
-reader = Reader(port=50007)
-
-# Serial:
-# reader = Reader(port='/dev/ttyUSB0', baudrate=115200)
-
-# Pipe
-# reader = Reader()
 
 plotHandler = plotter(labels, reader, n)
 while True:

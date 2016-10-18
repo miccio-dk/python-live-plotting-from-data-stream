@@ -1,5 +1,4 @@
-""" Live plotting of data received using through socket/serial connection. This version is slower that the one using
-    animation, but in this version the axes-ticks are correct. """
+""" Live plotting of data received one of the readers """
 
 import sys
 import time
@@ -62,18 +61,21 @@ class MultiLivePlot(object):
 
         self.timeNow = time.time()
         self.c = 0
+        self.running = True
 
     def update(self):
-        s, data = self.getData()
-        if s in self.labels and len(data) == self.ls[s]:
-
-            if time.time() - self.timeNow > 0.03:
-                self.updatePlot(data)
-                self.timeNow = time.time()
-        if self.c == 100:
-            print('resetting')
-            self.reset()
-        self.c += 1
+        if self.running:
+            s, data = self.getData()
+            if s in self.labels and len(data) == self.ls[s]:
+                if time.time() - self.timeNow > 0.03:
+                    self.updatePlot(data)
+                    self.timeNow = time.time()
+            if self.c == 100:
+                print('resetting')
+                self.reset()
+            self.c += 1
+        else:
+            plt.pause(0.001)
 
     def updatePlot(self, data):
         for s in self.labels:
@@ -103,10 +105,14 @@ class MultiLivePlot(object):
         if event.key == 'x':
             self.reset()
 
+        elif event.key == 'p':
+            self.running = not self.running
+
         elif event.key == 'q':
             plt.close(event.canvas.figure)
             self.reader.closeConnection()
             sys.exit()
+
 
     def getData(self):
         s, data = self.reader(dtype=float)
