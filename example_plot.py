@@ -1,9 +1,8 @@
 import sys
-from multiLivePlot import MultiLivePlotAni as plotter
-# from multiLivePlot2 import MultiLivePlot as plotter
+from multiLivePlot import MultiLivePlot as plotter
 
 allGood = 0
-if len(sys.argv) > 2:
+if len(sys.argv) > 1:
     allGood = 1
     if sys.argv[1] == 'serial':
         from serial_reader import Reader
@@ -13,11 +12,13 @@ if len(sys.argv) > 2:
         from pipe_reader import Reader
     else:
         allGood = 0
-    labels = sys.argv[2:]
-    nLabels = len(labels)
+    if len(sys.argv) > 2:
+        labels = sys.argv[2:]
+    else:
+        labels = []
 
 if not allGood:
-    print("Usage: <reader (serial/socket)> <label(s)>")
+    print("Usage: <reader (serial/socket)> <labels (optinal)> ")
     sys.exit()
 
 
@@ -25,19 +26,14 @@ if not allGood:
 n = 1000
 
 # Socket:
-# reader = Reader(port=50007)
+reader = Reader(port=50007)
 
 # Serial:
 # reader = Reader(port='/dev/ttyUSB0', baudrate=115200)
 
 # Pipe
-reader = Reader()
+# reader = Reader()
 
 plotHandler = plotter(labels, reader, n)
-
-# MultiLivePlot:
-# while True:
-#     plotHandler.update()
-
-# MultiLivePlotAni
-plotHandler.run()
+while True:
+    plotHandler.update()
