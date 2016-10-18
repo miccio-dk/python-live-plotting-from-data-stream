@@ -107,6 +107,9 @@ class MultiLivePlot(object):
         elif event.key == 'p':
             self.running = not self.running
 
+        elif event.key == 'g':
+            self.fig.savefig('{:.0f}.png'.format(time.time()), bbox_inches='tight')
+
         elif event.key == 'q':
             plt.close(event.canvas.figure)
             self.reader.closeConnection()
