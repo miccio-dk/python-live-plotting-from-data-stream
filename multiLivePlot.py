@@ -146,4 +146,4 @@ class MultiLivePlot(object):
         for i in range(len(possibleLabels)-1):
             diffs.append(possibleLabels[i+1][1] - possibleLabels[i][1])
         threshold = np.argmax(diffs) + 1
-        return list(zip(*possibleLabels))[0][threshold:]
+        return sorted(list(zip(*possibleLabels))[0][threshold:])
