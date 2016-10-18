@@ -30,7 +30,7 @@ class Reader(object):
     def closeConnection(self):
         self.conn.close()
 
-    def __call__(self, label=None, raw=False, dtype=int):
+    def __call__(self, label=None, raw=False, dtype=float):
         """ label: data group label
             raw: if true returns the data as it was read (string)
             dtype: data type that the data is converted to if raw is false """

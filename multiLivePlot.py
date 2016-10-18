@@ -115,7 +115,7 @@ class MultiLivePlot(object):
 
 
     def getData(self):
-        s, data = self.reader(dtype=float)
+        s, data = self.reader()
         if s in self.labels and len(data) == self.ls[s]:
             self.N = self.indexes[s] % self.n
             self.rings[s][self.N, :] = data
@@ -129,7 +129,7 @@ class MultiLivePlot(object):
         maxTries = 100
         seenLabels = collections.defaultdict(int)
         for _ in range(maxTries):
-            s, data = self.reader(dtype=float)
+            s, data = self.reader()
             seenLabels[s] += 1
             if s == label and 0 < len(data) <= 15:
                 return len(data)
@@ -141,7 +141,7 @@ class MultiLivePlot(object):
         maxTries = 100
         seenLabels = collections.defaultdict(int)
         for _ in range(maxTries):
-            s, data = self.reader(dtype=float)
+            s, data = self.reader()
             seenLabels[s] += 1
         possibleLabels = [('dummy', 1)] + sorted(seenLabels.items(), key=lambda x: x[1])
         diffs = []
