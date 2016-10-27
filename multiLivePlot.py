@@ -123,7 +123,10 @@ class MultiLivePlot(object):
             self.xs[s][self.N] = self.indexes[s]
             self.indexes[s] += 1
         else:
-            print(s)
+            if data == []:
+                print(s)
+            else:
+                print(s, data)
         return s, data
 
     def getLinesPerType(self, label, reader):
