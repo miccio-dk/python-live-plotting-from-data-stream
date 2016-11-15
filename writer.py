@@ -56,6 +56,7 @@ t = 0
 nx = 5
 ny = 3
 nz = 1
+refTime = time.time()
 while True:
     x = np.sin(t*0.01 + np.array([i/nx for i in range(nx)])*np.pi)
     writer.send("SinData,{:}".format(','.join(["{:0.4f}".format(val) for val in x])))
@@ -64,4 +65,7 @@ while True:
     z = np.random.rand(1)
     writer.send("0,{:}".format(','.join(["{:0.4f}".format(val) for val in z])))
     t += 1
-    # time.sleep(0.0001)
+    if time.time() - refTime > 3:
+        writer.send("COMMAND,x")
+        refTime = time.time()
+    time.sleep(0.001)

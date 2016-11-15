@@ -122,8 +122,12 @@ class Plotter(object):
             self.rings[s][self.N, :] = data
             self.xs[s][self.N] = self.indexes[s]
             self.indexes[s] += 1
+        elif isCommand(s):
+            event = FakeKeyEvent(data[0].strip())
+            print("Received command in data stream: {}".format(event.key))
+            self.press(event)
         else:
-            if not data:
+            if len(data) == 0:
                 print(s)
             else:
                 print(s, data)
@@ -154,3 +158,13 @@ class Plotter(object):
             diffs.append(possibleLabels[i+1][1] - possibleLabels[i][1])
         threshold = np.argmax(diffs) + 1
         return sorted(list(zip(*possibleLabels))[0][threshold:])
+
+
+class FakeKeyEvent(object):
+    def __init__(self, key):
+        self.key = key
+
+
+def isCommand(s):
+    if s == 'COMMAND':
+        return True

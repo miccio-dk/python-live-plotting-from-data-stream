@@ -5,6 +5,7 @@ import numpy as np
 class Reader(object):
     """ Sets up socket server that data streaming clients can connect to """
     # Use some random port
+
     def __init__(self, host, port):
         self.soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("Connecting to {} at {}".format(host, port))
@@ -31,8 +32,6 @@ class Reader(object):
             if char == '\r':
                 continue
             elif char == '\n':
-                # skip the linebreak following \r
-                self.soc.recv(1)
 
                 if raw:
                     # return whatever was received
@@ -44,11 +43,13 @@ class Reader(object):
                     if label is None or label == splittedData[0]:
                         return splittedData[0], np.array(list(map(dtype, splittedData[1:])))
                 except ValueError:
-                    pass
+                    if len(splittedData) > 1:
+                        return splittedData[0], splittedData[1:]
                 print(rawData)
                 rawData = ''
             else:
                 rawData += char
+
 
 if __name__ == '__main__':
     import sys

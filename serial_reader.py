@@ -5,6 +5,7 @@ import numpy as np
 class Reader(object):
     """ Sets up socket server that data streaming clients can connect to """
     # Use some random port
+
     def __init__(self, port="/dev/ttyUSB0", baudrate=115200):
         self.port = port
         self.baudrate = baudrate
@@ -36,8 +37,10 @@ class Reader(object):
                 if label is None or label == splittedData[0]:
                     return splittedData[0], np.array(list(map(dtype, splittedData[1:])))
             except ValueError:
-                pass
+                if len(splittedData) > 1:
+                    return splittedData[0], splittedData[1:]
             print(rawData)
+
 
 if __name__ == '__main__':
     reader = Reader()

@@ -22,7 +22,8 @@ class Reader(object):
                 if label is None or label == splittedData[0]:
                     return splittedData[0], np.array(list(map(dtype, splittedData[1:])))
             except ValueError:
-                pass
+                if len(splittedData) > 1:
+                    return splittedData[0], splittedData[1:]
             print(rawData)
 
 
