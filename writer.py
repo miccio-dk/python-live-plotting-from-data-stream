@@ -1,10 +1,15 @@
+#!/bin/python3
 import numpy as np
 import time
 import sys
 
+
+class MissingArgument(Exception):
+    pass
+
+
 if len(sys.argv) == 1:
-    print("Usage: <channel (socket/pipe)>")
-    sys.exit()
+    raise MissingArgument("\n\nUsage:writer.py <channel (socket/pipe)>\n")
 else:
     channel = sys.argv[1]
 

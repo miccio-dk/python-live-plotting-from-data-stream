@@ -143,6 +143,7 @@ class Plotter(object):
     def discoverLabels(self):
         # There must be a smarter/prettier way - but it does seem to be pretty robust
         maxTries = 100
+        print("Discovering labels by looking at the first {} packages...".format(maxTries))
         seenLabels = collections.defaultdict(int)
         for _ in range(maxTries):
             s, data = self.reader()
