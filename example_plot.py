@@ -1,6 +1,7 @@
 import sys
-from multiLivePlot import MultiLivePlot as plotter
+from plotter import Plotter
 
+allGood = True
 if len(sys.argv) > 1:
     if sys.argv[1] == 'serial':
         from serial_reader import Reader
@@ -15,16 +16,21 @@ if len(sys.argv) > 1:
         reader = Reader()
 
     else:
-        print("Usage: <reader (serial/socket)> <labels (optional)>")
-        sys.exit()
+        allGood = False
     if len(sys.argv) > 2:
         labels = sys.argv[2:]
     else:
         labels = []
+else:
+    allGood = False
+
+if not allGood:
+    print("Usage: <reader (serial/socket)> <labels (optional)>")
+    sys.exit()
 
 # Number data "packages" to plot at the same time
 n = 1000
 
-plotHandler = plotter(labels, reader, n)
+plotHandler = Plotter(labels, reader, n)
 while True:
     plotHandler.update()

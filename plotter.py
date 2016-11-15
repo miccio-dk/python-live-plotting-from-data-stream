@@ -11,7 +11,7 @@ class MissingLabelError(Exception):
     pass
 
 
-class MultiLivePlot(object):
+class Plotter(object):
     def __init__(self, labels, reader, n):
         self.reader = reader
         if not labels:   # PEP 8 style guide
@@ -123,7 +123,7 @@ class MultiLivePlot(object):
             self.xs[s][self.N] = self.indexes[s]
             self.indexes[s] += 1
         else:
-            if data == []:
+            if not data:
                 print(s)
             else:
                 print(s, data)

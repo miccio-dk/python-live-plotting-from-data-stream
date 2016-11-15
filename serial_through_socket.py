@@ -3,6 +3,8 @@ import socket
 import time
 import serial
 
+assert sys.version_info >= (3,0)
+
 if len(sys.argv) < 2:
     print("Usage: <server hostname>, <port (optional)>")
     sys.exit()
