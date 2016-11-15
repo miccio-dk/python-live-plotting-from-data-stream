@@ -9,4 +9,4 @@ The plotter creates a subplot for each type of package. Packages are distinguish
 The readers (socket, serial or pipe) reads a string of data following the above format and tries to convert it into a list of floats/int
 
 
-![Example of using three different packages](https://github.com/erikbrntsn/python-live-plotting-from-data-stream/blob/master/example_plot.png)
+![Example of using three different packages](https://github.com/erikbrntsn/python-live-plotting-from-data-stream/blob/master/documentation/example_plot.png)
