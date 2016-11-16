@@ -66,7 +66,7 @@ while True:
     z = np.random.rand(1)
     writer.send("0,{:}".format(','.join(["{:0.4f}".format(val) for val in z])))
     t += 1
-    if time.time() - refTime > 3:
-        writer.send("COMMAND,x")
-        refTime = time.time()
-    time.sleep(0.001)
+    # if time.time() - refTime > 3:
+    #     writer.send("COMMAND,x")
+    #     refTime = time.time()
+    time.sleep(0.01)
