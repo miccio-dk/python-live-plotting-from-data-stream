@@ -50,6 +50,7 @@ else:
 
         def send(self, data):
             print(data)
+            sys.stdout.flush()
     writer = StdoutWriter()
 
 t = 0
