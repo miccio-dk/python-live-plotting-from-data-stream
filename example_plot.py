@@ -30,7 +30,7 @@ if not allGood:
     print("Usage: <reader (serial/socket)> <labels (optional)>")
     sys.exit()
 
-# Number data "packages" to plot at the same time
+# Number of data "packages" to plot at the same time
 n = 1000
 
 plotHandler = Plotter(labels, reader, n)

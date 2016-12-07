@@ -1,4 +1,4 @@
-""" Live plotting of data received one of the readers """
+""" Live plotting of data received by one of the readers """
 
 import sys
 import time
@@ -14,13 +14,25 @@ class MissingLabelError(Exception):
 class Plotter(object):
     def __init__(self, labels, reader, n):
         self.reader = reader
-        if not labels:   # PEP 8 style guide
+        self.n = n
+        self.firstSetUp = True
+        self.setUp(labels)
+
+        # print("\nPress x to resize y axes. Press q to quit.")
+
+        self.timeNow = time.time()
+        self.freezePlot = False
+
+    def setUp(self, labels):
+        if not labels:
             print("No labels specified - Trying to find them automatically..")
             self.labels = self.discoverLabels()
             print("Found labels: {:}".format(', '.join(self.labels)))
         else:
             self.labels = labels
-        self.n = n
+
+        self.c = 0
+
         self.axs = {}
         self.lineSets = {}
         self.rings = {}
@@ -30,17 +42,19 @@ class Plotter(object):
         self.max_ = {}
         self.ls = {}
 
-        self.fig = plt.figure()
+        if self.firstSetUp:
+            self.fig = plt.figure()
+            self.firstSetUp = False
         self.fig.canvas.mpl_connect('key_press_event', self.press)
         maxTries = 10
         for i, s in enumerate(self.labels):
             ax = self.fig.add_subplot(len(self.labels), 1, i + 1)
             self.axs[s] = ax
-            ax.set_xlim(0, n)
+            ax.set_xlim(0, self.n)
             ax.set_ylim(-2, 2)
             self.lineSets[s] = []
             for i in range(maxTries):
-                length = self.getLinesPerType(s, reader)
+                length = self.getLinesPerType(s, self.reader)
                 if length is not None:
                     self.ls[s] = length
                     break
@@ -48,8 +62,8 @@ class Plotter(object):
                 self.lineSets[s].append(ax.plot([], [], '.', label=chr(ord('a')+j))[0])
             ax.set_title(s)
             ax.legend(loc=2)
-            self.rings[s] = np.zeros((n, self.ls[s]))
-            self.xs[s] = np.zeros(n)
+            self.rings[s] = np.zeros((self.n, self.ls[s]))
+            self.xs[s] = np.zeros(self.n)
             self.indexes[s] = 0
             self.min_[s] = float('inf')
             self.max_[s] = -float('inf')
@@ -57,27 +71,19 @@ class Plotter(object):
         print("\nNumber of data points in each label:")
         print(self.ls)
 
-        print("\nPress x to resize y axes. Press q to quit.")
-
-        self.timeNow = time.time()
-        self.c = 0
-        self.running = True
-
     def update(self):
-        if self.running:
-            s, data = self.getData()
-            if s in self.labels and len(data) == self.ls[s]:
-                if time.time() - self.timeNow > 0.03:
-                    self.updatePlot(data)
-                    self.timeNow = time.time()
-            if self.c == 100:
-                print('resetting')
-                self.reset()
-            self.c += 1
-        else:
+        s, data = self.getData()
+        if self.c == 100:
+            print('resetting')
+            self.reset()
+        self.c += 1
+        if time.time() - self.timeNow > 0.03:
+            if not self.freezePlot:
+                self.updatePlot()
             plt.pause(0.001)
+            self.timeNow = time.time()
 
-    def updatePlot(self, data):
+    def updatePlot(self):
         for s in self.labels:
             for j in range(self.ls[s]):
                 self.lineSets[s][j].set_data(self.xs[s], self.rings[s][:, j])
@@ -90,7 +96,6 @@ class Plotter(object):
                 self.max_[s] = self.rings[s].max()
                 self.axs[s].set_ylim(self.min_[s], self.max_[s])
             self.axs[s].set_xlim(self.indexes[s] - self.n, self.indexes[s])
-        plt.pause(0.001)
 
     def reset(self):
         for label in self.labels:
@@ -105,7 +110,11 @@ class Plotter(object):
             self.reset()
 
         elif event.key == 'p':
-            self.running = not self.running
+            self.freezePlot = not self.freezePlot
+
+        elif event.key == 'r':
+            self.fig.clear()
+            self.setUp([])
 
         elif event.key == 'g':
             self.fig.savefig('{:.0f}.png'.format(time.time()), bbox_inches='tight')
