@@ -20,7 +20,8 @@ class Plotter(object):
 
         # print("\nPress x to resize y axes. Press q to quit.")
 
-        self.timeNow = time.time()
+        self.lastPlotUpdate = time.time()
+        self.lastStatus = time.time()
         self.freezePlot = False
 
     def setUp(self, labels):
@@ -41,6 +42,7 @@ class Plotter(object):
         self.min_ = {}
         self.max_ = {}
         self.ls = {}
+        self.dataRate = {}
 
         if self.firstSetUp:
             self.fig = plt.figure()
@@ -67,21 +69,29 @@ class Plotter(object):
             self.indexes[s] = 0
             self.min_[s] = float('inf')
             self.max_[s] = -float('inf')
+            self.dataRate[s] = 0;
 
         print("\nNumber of data points in each label:")
         print(self.ls)
 
     def update(self):
-        s, data = self.getData()
+        self.getData()
         if self.c == 100:
             print('resetting')
             self.reset()
         self.c += 1
-        if time.time() - self.timeNow > 0.03:
+        if time.time() - self.lastPlotUpdate > 0.03:
             if not self.freezePlot:
                 self.updatePlot()
             plt.pause(0.001)
-            self.timeNow = time.time()
+            self.lastPlotUpdate = time.time()
+        if time.time() - self.lastStatus > 1:
+            rates = ""
+            for l in self.labels:
+                rates = rates + "{:}: {:}, ".format(l, self.dataRate[l])
+                self.dataRate[l] = 0
+            print(rates[:-2])
+            self.lastStatus = time.time()
 
     def updatePlot(self):
         for s in self.labels:
@@ -131,6 +141,7 @@ class Plotter(object):
             self.rings[s][self.N, :] = data
             self.xs[s][self.N] = self.indexes[s]
             self.indexes[s] += 1
+            self.dataRate[s] += 1
         elif isCommand(s):
             event = FakeKeyEvent(data[0].strip())
             print("Received command in data stream: {}".format(event.key))
@@ -160,13 +171,20 @@ class Plotter(object):
         seenLabels = collections.defaultdict(int)
         for _ in range(maxTries):
             s, data = self.reader()
+            print(s, data)
             seenLabels[s] += 1
-        possibleLabels = [('dummy', 1)] + sorted(seenLabels.items(), key=lambda x: x[1])
-        diffs = []
-        for i in range(len(possibleLabels)-1):
-            diffs.append(possibleLabels[i+1][1] - possibleLabels[i][1])
-        threshold = np.argmax(diffs) + 1
-        return sorted(list(zip(*possibleLabels))[0][threshold:])
+        # Good for noisy data for equal data rates:
+        # possibleLabels = [('dummy', 1)] + sorted(seenLabels.items(), key=lambda x: x[1])
+        # diffs = []
+        # for i in range(len(possibleLabels)-1):
+        #     diffs.append(possibleLabels[i+1][1] - possibleLabels[i][1])
+        # threshold = np.argmax(diffs) + 1
+        # return sorted(list(zip(*possibleLabels))[0][threshold:])
+
+        # Good for not too noisy data for different data rates
+        threshold = maxTries / 10
+        possibleLabels = [l for l, s in seenLabels.items() if s >= threshold]
+        return sorted(possibleLabels)
 
 
 class FakeKeyEvent(object):
