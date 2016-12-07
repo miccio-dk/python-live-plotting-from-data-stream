@@ -6,7 +6,6 @@ from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 mt = imp.load_source('mathTools', 'quaternion/quaternion.py')
-reader = Reader.Reader()
 
 if len(sys.argv) > 2:
     if sys.argv[1] == 'serial':
@@ -14,10 +13,10 @@ if len(sys.argv) > 2:
         reader = Reader(port='/dev/ttyUSB0', baudrate=115200)
 
     elif sys.argv[1] == 'socket':
-        # from socket_reader_client import Reader
-        # reader = Reader('', port=50007)
-        from socket_reader import Reader
-        reader = Reader(port=50007)
+        from socket_reader_client import Reader
+        reader = Reader('10.0.2.50', port=50007)
+        # from socket_reader import Reader
+        # reader = Reader(port=50007)
 
     elif sys.argv[1] == 'pipe':
         from pipe_reader import Reader
@@ -25,7 +24,7 @@ if len(sys.argv) > 2:
 
     label = sys.argv[2]
 else:
-    print("Usage <reader (Socket/Serial/Pipe)> <quaternion label>")
+    print("Usage <reader (socket/serial/pipe)> <quaternion label>")
     sys.exit()
 
 
@@ -41,6 +40,9 @@ axLive = fig.add_subplot(1, 1, 1, aspect='equal', projection='3d')
 lines = [axLive.plot([], [], [], 'r', linewidth=3)[0],
          axLive.plot([], [], [], 'g', linewidth=3)[0],
          axLive.plot([], [], [], 'b', linewidth=3)[0]]
+axLive.set_xlabel("x")
+axLive.set_ylabel("y")
+axLive.set_zlabel("z")
 
 axLive.set_xlim3d(-1, 1)
 axLive.set_ylim3d(-1, 1)

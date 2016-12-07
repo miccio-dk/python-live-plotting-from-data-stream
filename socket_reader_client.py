@@ -63,3 +63,5 @@ if __name__ == '__main__':
 
     while True:
         print(reader(raw=True))
+        # sys.stdout(reader(raw=True))
+        sys.stdout.flush()

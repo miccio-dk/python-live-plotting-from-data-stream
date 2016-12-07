@@ -68,4 +68,4 @@ if __name__ == '__main__':
     reader = Reader()
 
     while True:
-        print(reader())
+        print(*reader())
