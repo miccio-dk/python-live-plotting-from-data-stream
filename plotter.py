@@ -134,8 +134,8 @@ class Plotter(object):
             sys.exit()
 
     def getData(self):
-        s, data = self.reader()
-        if s in self.labels and len(data) == self.ls[s]:
+        s, data, isNumerical = self.reader()
+        if isNumerical and s in self.labels and len(data) == self.ls[s]:
             self.N = self.indexes[s] % self.n
             self.rings[s][self.N, :] = data
             self.xs[s][self.N] = self.indexes[s]
@@ -156,10 +156,11 @@ class Plotter(object):
         maxTries = 100
         seenLabels = collections.defaultdict(int)
         for _ in range(maxTries):
-            s, data = self.reader()
-            seenLabels[s] += 1
-            if s == label and 0 < len(data) <= 15:
-                return len(data)
+            s, data, isNumerical = self.reader()
+            if isNumerical:
+                seenLabels[s] += 1
+                if s == label and 0 < len(data) <= 15:
+                    return len(data)
         pretty = '\n'.join([k + ': ' + str(v) for k, v in seenLabels.items()])
         raise MissingLabelError("Label: '{:}' not found after receiving {:} data packages\nReceived labels:\n{:}".format(label, maxTries, pretty))
 
@@ -169,8 +170,9 @@ class Plotter(object):
         print("Discovering labels by looking at the first {} packages...".format(maxTries))
         seenLabels = collections.defaultdict(int)
         for _ in range(maxTries):
-            s, data = self.reader()
-            seenLabels[s] += 1
+            s, data, isNumerical = self.reader()
+            if isNumerical:
+                seenLabels[s] += 1
         # Good for noisy data for equal data rates:
         # possibleLabels = [('dummy', 1)] + sorted(seenLabels.items(), key=lambda x: x[1])
         # diffs = []
