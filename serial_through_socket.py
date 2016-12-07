@@ -16,16 +16,18 @@ class serialHandler(object):
 
   def read(self, data):
     available = self.ser.inWaiting()
+    # print(available)
     if available:
       data[0] = self.ser.readline()
-      # while self.ser.inWaiting():
-      #   self.ser.readline()
+      while self.ser.inWaiting() > 3000:
+        self.ser.readline()
       return 1
     else:
       return 0
 
   def write(self, data):
     self.ser.write(data)
+    # self.ser.flush()
 
   def close(self):
     self.ser.close()
@@ -114,21 +116,21 @@ if __name__ == "__main__":
   i = 0
   serReadFreq = 0
   lastTime = time.time()
-  # try:
-  while True:
-    if serHandle.read(serData):
-      serReadFreq += 1
-      socHandle.write(serData[0])
-    if socHandle.read(socData):
-      serHandle.write(socData[0])
-    if time.time() - lastTime > 1:
-      print(serReadFreq)
-      serReadFreq = 0
-      lastTime = time.time()
-    time.sleep(0.001)
-  # except KeyboardInterrupt:
-  #   socHandle.close()
-  #   serHandle.close()
-  #   print("Connections closed")
-  #   sys.exit()
+  try:
+    while True:
+      if serHandle.read(serData):
+        serReadFreq += 1
+        socHandle.write(serData[0])
+      if socHandle.read(socData):
+        serHandle.write(socData[0])
+      if time.time() - lastTime > 1:
+        print(serReadFreq)
+        serReadFreq = 0
+        lastTime = time.time()
+      time.sleep(0.0001)
+  except KeyboardInterrupt:
+    socHandle.close()
+    serHandle.close()
+    print("Connections closed")
+    sys.exit()
 
