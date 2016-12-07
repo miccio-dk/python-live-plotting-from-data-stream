@@ -11,20 +11,21 @@ class serialHandler(object):
   def __init__(self, port, baud):
     print("Trying to connect to device over serial port {:} at baudrate {:}".format(port, baud))
     self.ser = serial.Serial(port=port, baudrate=baud)
+    while self.ser.inWaiting():
+      self.ser.readline()
 
   def read(self, data):
     available = self.ser.inWaiting()
     if available:
       data[0] = self.ser.readline()
-      while self.ser.inWaiting():
-        self.ser.readline()
+      # while self.ser.inWaiting():
+      #   self.ser.readline()
       return 1
     else:
       return 0
 
   def write(self, data):
     self.ser.write(data)
-    # self.ser.flush()
 
   def close(self):
     self.ser.close()
@@ -53,6 +54,7 @@ class socketHandler(object):
 
   def receiveConnection(self):
     self.conn, self.addr = self.soc.accept()
+    print("Accepted a connection from {:}".format(self.addr))
 
   def read(self, data):
     s = []
@@ -69,7 +71,10 @@ class socketHandler(object):
       else:
         break
     data[0] = "".join(s)
-    return True
+    if data[0]:
+      return True
+    else:
+      return False
 
   def write(self, data):
     try:
@@ -99,24 +104,31 @@ if __name__ == "__main__":
     print("Usage: <ip> <port> <serial port> <baudrate>\nsupply either nothing or ip and port or ip, port, serial port and baudrate")
 
 
-  # Autopilot read/write
-  serHandle = serialHandler(serPort, serBaud)
   # Client    read/write
   socHandle = socketHandler(ip, port)
+  # Autopilot read/write
+  serHandle = serialHandler(serPort, serBaud)
 
   serData = [""]
   socData = [""]
   i = 0
-  try:
-    while True:
-      if serHandle.read(serData):
-        socHandle.write(serData[0])
-      if socHandle.read(socData):
-        serHandle.write(socData[0])
-      time.sleep(0.001)
-  except KeyboardInterrupt:
-    socHandle.close()
-    serHandle.close()
-    print("Connections closed")
-    sys.exit()
+  serReadFreq = 0
+  lastTime = time.time()
+  # try:
+  while True:
+    if serHandle.read(serData):
+      serReadFreq += 1
+      socHandle.write(serData[0])
+    if socHandle.read(socData):
+      serHandle.write(socData[0])
+    if time.time() - lastTime > 1:
+      print(serReadFreq)
+      serReadFreq = 0
+      lastTime = time.time()
+    time.sleep(0.001)
+  # except KeyboardInterrupt:
+  #   socHandle.close()
+  #   serHandle.close()
+  #   print("Connections closed")
+  #   sys.exit()
 

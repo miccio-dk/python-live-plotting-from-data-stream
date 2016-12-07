@@ -15,7 +15,7 @@ class Plotter(object):
     def __init__(self, labels, reader, n):
         self.reader = reader
         self.n = n
-        self.firstSetUp = True
+        self.fig = plt.figure()
         self.setUp(labels)
 
         # print("\nPress x to resize y axes. Press q to quit.")
@@ -44,9 +44,6 @@ class Plotter(object):
         self.ls = {}
         self.dataRate = {}
 
-        if self.firstSetUp:
-            self.fig = plt.figure()
-            self.firstSetUp = False
         self.fig.canvas.mpl_connect('key_press_event', self.press)
         maxTries = 10
         for i, s in enumerate(self.labels):
@@ -87,10 +84,12 @@ class Plotter(object):
             self.lastPlotUpdate = time.time()
         if time.time() - self.lastStatus > 1:
             rates = ""
+            total = 0
             for l in self.labels:
                 rates = rates + "{:}: {:}, ".format(l, self.dataRate[l])
+                total += self.dataRate[l]
                 self.dataRate[l] = 0
-            print(rates[:-2])
+            print(rates + "Total: {:}".format(total))
             self.lastStatus = time.time()
 
     def updatePlot(self):
@@ -171,7 +170,6 @@ class Plotter(object):
         seenLabels = collections.defaultdict(int)
         for _ in range(maxTries):
             s, data = self.reader()
-            print(s, data)
             seenLabels[s] += 1
         # Good for noisy data for equal data rates:
         # possibleLabels = [('dummy', 1)] + sorted(seenLabels.items(), key=lambda x: x[1])
