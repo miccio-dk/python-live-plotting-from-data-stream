@@ -13,10 +13,8 @@ if len(sys.argv) > 2:
         reader = Reader(port='/dev/ttyUSB0', baudrate=115200)
 
     elif sys.argv[1] == 'socket':
-        from socket_reader_client import Reader
+        from socket_reader import Reader
         reader = Reader('10.0.2.50', port=50007)
-        # from socket_reader import Reader
-        # reader = Reader(port=50007)
 
     elif sys.argv[1] == 'pipe':
         from pipe_reader import Reader
