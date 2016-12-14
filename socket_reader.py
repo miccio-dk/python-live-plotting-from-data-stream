@@ -1,5 +1,6 @@
 import socket
 import numpy as np
+import select
 
 
 class Reader(object):
@@ -26,8 +27,14 @@ class Reader(object):
         while True:
             # Read one byte at a time
             try:
-                data = self.soc.recv(1)
-                char = data.decode()
+                # qwe = select.select([self.soc], [], [], 0.0)[0]
+                # data = self.soc.recv(1)
+                # char = data.decode()
+                if select.select([self.soc], [], [], 0.1)[0]:
+                    data = self.soc.recv(1)
+                    char = data.decode()
+                else:
+                    return False, [], False
             except UnicodeDecodeError:
                 continue
             if not char:

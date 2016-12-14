@@ -169,10 +169,11 @@ class Plotter(object):
             print("Received command in data stream: {}".format(event.key))
             self.press(event)
         else:
-            if len(data) == 0:
-                print(s)
-            else:
-                print(s, data)
+            if not s == False:
+                if len(data) == 0:
+                    print(s)
+                else:
+                    print(s, data)
         return s, data
 
     def getLinesPerType(self, label, reader):
