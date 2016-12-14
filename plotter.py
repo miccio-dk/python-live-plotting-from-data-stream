@@ -7,6 +7,12 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
+# Remove matplotlibs default keybindings
+for k, v in sorted(plt.rcParams.items()):
+    if k.startswith('keymap'):
+        plt.rcParams[k] = []
+
+
 class MissingLabelError(Exception):
     pass
 
@@ -23,6 +29,8 @@ class Plotter(object):
         self.lastPlotUpdate = time.time()
         self.lastStatus = time.time()
         self.freezePlot = False
+        self.receivingCommand = False
+        self.command = ''
 
     def setUp(self, labels):
         if not labels:
@@ -79,20 +87,20 @@ class Plotter(object):
         self.c += 1
         if time.time() - self.lastPlotUpdate > 0.03:
             if not self.freezePlot:
-                self.updatePlot()
+                self.updatePlotData()
             plt.pause(0.001)
             self.lastPlotUpdate = time.time()
-        if time.time() - self.lastStatus > 1:
-            rates = ""
-            total = 0
-            for l in self.labels:
-                rates = rates + "{:}: {:}, ".format(l, self.dataRate[l])
-                total += self.dataRate[l]
-                self.dataRate[l] = 0
-            print(rates + "Total: {:}".format(total))
-            self.lastStatus = time.time()
+        # if time.time() - self.lastStatus > 1:
+        #     rates = ""
+        #     total = 0
+        #     for l in self.labels:
+        #         rates = rates + "{:}: {:}, ".format(l, self.dataRate[l])
+        #         total += self.dataRate[l]
+        #         self.dataRate[l] = 0
+        #     print(rates + "Total: {:}".format(total))
+        #     self.lastStatus = time.time()
 
-    def updatePlot(self):
+    def updatePlotData(self):
         for s in self.labels:
             for j in range(self.ls[s]):
                 self.lineSets[s][j].set_data(self.xs[s], self.rings[s][:, j])
@@ -115,6 +123,17 @@ class Plotter(object):
             self.max_[label] = -float('inf')
 
     def press(self, event):
+        if self.receivingCommand:
+            if event.key == 'enter':
+                print("Writing command through reader")
+                self.receivingCommand == False
+                print("Sending {:}".format(self.command))
+                self.reader.write(self.command)
+                self.command = ''
+            else:
+                self.command += event.key
+            return
+
         if event.key == 'x':
             self.reset()
 
@@ -127,6 +146,10 @@ class Plotter(object):
 
         elif event.key == 'g':
             self.fig.savefig('{:.0f}.png'.format(time.time()), bbox_inches='tight')
+
+        elif event.key == 'enter':
+            print("listening for message until next enter key press:")
+            self.receivingCommand = True
 
         elif event.key == 'q':
             plt.close(event.canvas.figure)

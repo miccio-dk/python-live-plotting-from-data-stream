@@ -15,6 +15,9 @@ class Reader(object):
     def closeConnection(self):
         self.ser.close()
 
+    def write(self, data):
+        ser.write(data)
+
     def __call__(self, label=None, raw=False, dtype=float):
         """ label: data group label
             raw: if true returns the data as it was read (string)

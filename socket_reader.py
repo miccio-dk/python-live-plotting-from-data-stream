@@ -15,6 +15,9 @@ class Reader(object):
     def closeConnection(self):
         self.soc.close()
 
+    def write(self, data):
+        self.soc.sendall(data.encode())
+
     def __call__(self, label=None, raw=False, dtype=float):
         """ label: data group label
             raw: if true returns the data as it was read (string)
@@ -23,7 +26,8 @@ class Reader(object):
         while True:
             # Read one byte at a time
             try:
-                char = self.soc.recv(1).decode()
+                data = self.soc.recv(1)
+                char = data.decode()
             except UnicodeDecodeError:
                 continue
             if not char:
