@@ -6,6 +6,9 @@ class Reader(object):
     def closeConnection(self):
         pass
 
+    def write(self, data):
+        print("Can not write data to server when using pipe reader.\nMessage: '{:}' has been discarded".format(data))
+
     def __call__(self, label=None, raw=False, dtype=float):
         """ label: data group label
             raw: if true returns the data as it was read (string)

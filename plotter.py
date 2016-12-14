@@ -126,7 +126,7 @@ class Plotter(object):
         if self.receivingCommand:
             if event.key == 'enter':
                 print("Writing command through reader")
-                self.receivingCommand == False
+                self.receivingCommand = False
                 print("Sending {:}".format(self.command))
                 self.reader.write(self.command)
                 self.command = ''
