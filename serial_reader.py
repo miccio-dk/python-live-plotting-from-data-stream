@@ -35,10 +35,10 @@ class Reader(object):
                 # Interpret the received data
                 splittedData = decodedData.split(',')
                 if label is None or label == splittedData[0]:
-                    return splittedData[0], np.array(list(map(dtype, splittedData[1:])))
+                    return splittedData[0], np.array(list(map(dtype, splittedData[1:]))), True
             except ValueError:
                 if len(splittedData) > 1:
-                    return splittedData[0], splittedData[1:]
+                    return splittedData[0], splittedData[1:], False
             print(rawData)
 
 

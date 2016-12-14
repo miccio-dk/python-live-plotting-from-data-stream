@@ -15,7 +15,7 @@ class Plotter(object):
     def __init__(self, labels, reader, n):
         self.reader = reader
         self.n = n
-        self.firstSetUp = True
+        self.fig = plt.figure()
         self.setUp(labels)
 
         # print("\nPress x to resize y axes. Press q to quit.")
@@ -44,9 +44,6 @@ class Plotter(object):
         self.ls = {}
         self.dataRate = {}
 
-        if self.firstSetUp:
-            self.fig = plt.figure()
-            self.firstSetUp = False
         self.fig.canvas.mpl_connect('key_press_event', self.press)
         maxTries = 10
         for i, s in enumerate(self.labels):
@@ -87,10 +84,12 @@ class Plotter(object):
             self.lastPlotUpdate = time.time()
         if time.time() - self.lastStatus > 1:
             rates = ""
+            total = 0
             for l in self.labels:
                 rates = rates + "{:}: {:}, ".format(l, self.dataRate[l])
+                total += self.dataRate[l]
                 self.dataRate[l] = 0
-            print(rates[:-2])
+            print(rates + "Total: {:}".format(total))
             self.lastStatus = time.time()
 
     def updatePlot(self):
@@ -135,8 +134,8 @@ class Plotter(object):
             sys.exit()
 
     def getData(self):
-        s, data = self.reader()
-        if s in self.labels and len(data) == self.ls[s]:
+        s, data, isNumerical = self.reader()
+        if isNumerical and s in self.labels and len(data) == self.ls[s]:
             self.N = self.indexes[s] % self.n
             self.rings[s][self.N, :] = data
             self.xs[s][self.N] = self.indexes[s]
@@ -157,10 +156,11 @@ class Plotter(object):
         maxTries = 100
         seenLabels = collections.defaultdict(int)
         for _ in range(maxTries):
-            s, data = self.reader()
-            seenLabels[s] += 1
-            if s == label and 0 < len(data) <= 15:
-                return len(data)
+            s, data, isNumerical = self.reader()
+            if isNumerical:
+                seenLabels[s] += 1
+                if s == label and 0 < len(data) <= 15:
+                    return len(data)
         pretty = '\n'.join([k + ': ' + str(v) for k, v in seenLabels.items()])
         raise MissingLabelError("Label: '{:}' not found after receiving {:} data packages\nReceived labels:\n{:}".format(label, maxTries, pretty))
 
@@ -170,9 +170,9 @@ class Plotter(object):
         print("Discovering labels by looking at the first {} packages...".format(maxTries))
         seenLabels = collections.defaultdict(int)
         for _ in range(maxTries):
-            s, data = self.reader()
-            print(s, data)
-            seenLabels[s] += 1
+            s, data, isNumerical = self.reader()
+            if isNumerical:
+                seenLabels[s] += 1
         # Good for noisy data for equal data rates:
         # possibleLabels = [('dummy', 1)] + sorted(seenLabels.items(), key=lambda x: x[1])
         # diffs = []

@@ -5,30 +5,15 @@ import numpy as np
 class Reader(object):
     """ Sets up socket server that data streaming clients can connect to """
     # Use some random port
-    def __init__(self, port=50007):
-        self.soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        defaultAddress = True
-        while True:
-            try:
-                # Try to get the default port
-                self.soc.bind(('', port))
-                break
-            except OSError:
-                # The default port was not given to us by the OS. Choose new port. This can happen if the connection
-                # is not closed properly. The port is usually released within a few minutes after improper termination.
-                defaultAddress = False
-                port += 1
-        if not defaultAddress:
-            print("Assigned port {:}".format(port))
-        self.soc.listen(1)
 
-        print("Waiting for client to connect")
-        self.conn, addr = self.soc.accept()
-        self.conn.__enter__()
-        print('Connection received: {:}'.format(addr))
+    def __init__(self, host, port):
+        self.soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        print("Connecting to {} at {}".format(host, port))
+        self.soc.connect((host, port))
+        print("Connected")
 
     def closeConnection(self):
-        self.conn.close()
+        self.soc.close()
 
     def __call__(self, label=None, raw=False, dtype=float):
         """ label: data group label
@@ -37,18 +22,19 @@ class Reader(object):
         rawData = ''
         while True:
             # Read one byte at a time
-            char = self.conn.recv(1).decode()
+            try:
+                char = self.soc.recv(1).decode()
+            except UnicodeDecodeError:
+                continue
             if not char:
                 # Connection closed or broken
                 print("Connection closed")
                 self.closeConnection()
                 break
             # We expect the data to be terminated with "\r\n"
-            if not char == '\r':
-                rawData += char
-            else:
-                # skip the linebreak following \r
-                self.conn.recv(1)
+            if char == '\r':
+                continue
+            elif char == '\n':
 
                 if raw:
                     # return whatever was received
@@ -58,14 +44,26 @@ class Reader(object):
                     # Interpret the received data
                     splittedData = rawData.split(',')
                     if label is None or label == splittedData[0]:
-                        return splittedData[0], np.array(list(map(dtype, splittedData[1:])))
+                        return splittedData[0], np.array(list(map(dtype, splittedData[1:]))), True
                 except ValueError:
-                    pass
+                    if len(splittedData) > 1:
+                        return splittedData[0], splittedData[1:], False
                 print(rawData)
                 rawData = ''
+            else:
+                rawData += char
+
 
 if __name__ == '__main__':
-    reader = Reader()
+    import sys
+    if len(sys.argv) == 1:
+        print("Usage: <host address> <host port>")
+        sys.exit()
+
+    host = sys.argv[1]
+    port = int(sys.argv[2])
+    reader = Reader(host, port)
 
     while True:
-        print(*reader())
+        print(reader(raw=True))
+        sys.stdout.flush()
