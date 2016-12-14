@@ -1,3 +1,7 @@
 __pycache__
 plotting.sublime-project
 plotting.sublime-workspace
+
+# c++ socket server files to ignore
+c++_socket_server/server
+c++_socket_server/Build
