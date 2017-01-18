@@ -4,15 +4,19 @@ import numpy as np
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
+
 def load_src(name, fpath):
   import os
   import imp
   return imp.load_source(name, os.path.join(os.path.dirname(__file__), fpath))
 
-mt = mt = load_src('mathTools', 'quaternion/quaternion.py')
+
+mt = load_src('mathTools', 'quaternion/quaternion.py')
+
 
 class QuadPlotter(object):
   def __init__(self, reader, quaLabel, posLabel=None):
+    self.reader = reader
     self.quaLabel = quaLabel
     self.posLabel = posLabel
     self.reader = reader
@@ -57,9 +61,11 @@ class QuadPlotter(object):
     self.lines[2].set_3d_properties(lineZ[2, :] + pos[2])
     plt.pause(0.001)
 
+    plt.pause(0.001)
+
   def update(self):
-    s, data, isNumerical = self.reader()
-    if isNumerical and s == self.quaLabel:
+    label, data, isNumerical = self.reader()
+    if isNumerical and label == self.quaLabel:
       self.latestQua = mt.Quaternion(*data)
       if time.time() - self.timeAtLastPlotUpdate > self.timeBetweenPlotUpdates:
         self.drawQuad(self.latestQua, self.latestPos)
