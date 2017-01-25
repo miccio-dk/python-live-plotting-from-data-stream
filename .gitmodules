@@ -1,3 +1,0 @@
-[submodule "quaternion"]
-	path = quaternion
-	url = git@github.com:erikbrntsn/quaternion.git
