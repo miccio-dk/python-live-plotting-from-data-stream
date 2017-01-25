@@ -74,7 +74,7 @@ class Plotter(object):
             self.indexes[s] = 0
             self.min_[s] = float('inf')
             self.max_[s] = -float('inf')
-            self.dataRate[s] = 0;
+            self.dataRate[s] = 0
 
         print("\nNumber of data points in each label:")
         print(self.ls)
@@ -128,7 +128,7 @@ class Plotter(object):
                 print("Writing command through reader")
                 self.receivingCommand = False
                 print("Sending {:}".format(self.command))
-                self.reader.write(self.command)
+                self.reader.write(self.command + "\n")
                 self.command = ''
             else:
                 self.command += event.key
@@ -169,11 +169,11 @@ class Plotter(object):
             print("Received command in data stream: {}".format(event.key))
             self.press(event)
         else:
-            if not s == False:
+            if s:
                 if len(data) == 0:
                     print(s)
                 else:
-                    print(s, data)
+                    print(s, *data)
         return s, data
 
     def getLinesPerType(self, label, reader):
@@ -195,8 +195,13 @@ class Plotter(object):
         seenLabels = collections.defaultdict(int)
         for _ in range(maxTries):
             s, data, isNumerical = self.reader()
-            if isNumerical:
+            if s:
+              if isNumerical:
                 seenLabels[s] += 1
+            else:
+                # time.sleep(0.05)
+                pass
+
         # Good for noisy data for equal data rates:
         # possibleLabels = [('dummy', 1)] + sorted(seenLabels.items(), key=lambda x: x[1])
         # diffs = []
