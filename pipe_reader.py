@@ -27,7 +27,7 @@ class Reader(object):
             except ValueError:
                 if len(splittedData) > 1:
                     return splittedData[0], splittedData[1:], False
-            print(rawData)
+            return rawData, [], False
 
 
 if __name__ == '__main__':

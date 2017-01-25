@@ -1,4 +1,5 @@
 import serial
+import select
 import numpy as np
 
 
@@ -16,23 +17,27 @@ class Reader(object):
         self.ser.close()
 
     def write(self, data):
-        ser.write(data)
+        print('Writing: "{:}"'.format(data.strip()))
+        self.ser.write(data.encode("utf-8"))
 
     def __call__(self, label=None, raw=False, dtype=float):
         """ label: data group label
             raw: if true returns the data as it was read (string)
             dtype: data type that the data is converted to if raw is false """
         while True:
-            rawData = self.ser.readline()
-            try:
-                decodedData = rawData.decode()
-            except UnicodeDecodeError:
-                print(rawData)
-                continue
+            if select.select([self.ser], [], [], 0.02)[0]:
+                rawData = self.ser.readline()
+            else:
+                rawData = b''
 
             if raw:
                 # return whatever was received
                 return rawData
+
+            try:
+                decodedData = rawData.decode()
+            except UnicodeDecodeError:
+                break
 
             try:
                 # Interpret the received data
@@ -40,13 +45,15 @@ class Reader(object):
                 if label is None or label == splittedData[0]:
                     return splittedData[0], np.array(list(map(dtype, splittedData[1:]))), True
             except ValueError:
-                if len(splittedData) > 1:
-                    return splittedData[0], splittedData[1:], False
-            print(rawData)
+                return splittedData[0], splittedData[1:], False
+            break
+        return rawData, [], False
 
 
 if __name__ == '__main__':
     reader = Reader()
 
     while True:
-        print(reader())
+        data = reader()
+        if data:
+            print(data)

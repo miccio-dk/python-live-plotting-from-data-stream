@@ -27,24 +27,23 @@ class Reader(object):
         while True:
             # Read one byte at a time
             try:
-                # qwe = select.select([self.soc], [], [], 0.0)[0]
-                # data = self.soc.recv(1)
-                # char = data.decode()
                 if select.select([self.soc], [], [], 0.1)[0]:
                     data = self.soc.recv(1)
                     char = data.decode()
                 else:
-                    return False, [], False
+                    break
             except UnicodeDecodeError:
-                continue
+                break
             if not char:
                 # Connection closed or broken
-                print("Connection closed")
+                print("Connection lost/closed")
                 self.closeConnection()
                 break
+
             # We expect the data to be terminated with "\r\n"
             if char == '\r':
                 continue
+            # End of package - return result
             elif char == '\n':
 
                 if raw:
@@ -57,12 +56,11 @@ class Reader(object):
                     if label is None or label == splittedData[0]:
                         return splittedData[0], np.array(list(map(dtype, splittedData[1:]))), True
                 except ValueError:
-                    if len(splittedData) > 1:
-                        return splittedData[0], splittedData[1:], False
-                print(rawData)
-                rawData = ''
+                    return splittedData[0], splittedData[1:], False
+                break
             else:
                 rawData += char
+        return rawData, [], False
 
 
 if __name__ == '__main__':
