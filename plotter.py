@@ -128,7 +128,7 @@ class Plotter(object):
                 print("Writing command through reader")
                 self.receivingCommand = False
                 print("Sending {:}".format(self.command))
-                self.reader.write(self.command + "\n")
+                self.reader.write(self.command + "\r\n")
                 self.command = ''
             else:
                 self.command += event.key
