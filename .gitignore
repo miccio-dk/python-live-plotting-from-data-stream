@@ -1,6 +1,5 @@
 __pycache__
-plotting.sublime-project
-plotting.sublime-workspace
+python-live-plotting-from-data-stream.sublime-workspace
 
 # c++ socket server files to ignore
 c++_socket_server/server

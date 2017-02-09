@@ -18,7 +18,7 @@ if len(sys.argv) == 3:
 
   elif sys.argv[1] == 'socket':
     from socket_reader import Reader
-    reader = Reader('10.0.2.50', port=50007)
+    reader = Reader('10.0.102.2', port=50007)
 
   elif sys.argv[1] == 'pipe':
     from pipe_reader import Reader

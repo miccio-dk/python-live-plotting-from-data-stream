@@ -40,7 +40,7 @@ class QuadPlotter(object):
     self.timeBetweenPlotUpdates = 0.03
     self.timeAtLastPlotUpdate = 0
 
-  def press(event):
+  def press(self, event):
     if event.key == 'q':
       plt.close(event.canvas.figure)
       sys.exit()
