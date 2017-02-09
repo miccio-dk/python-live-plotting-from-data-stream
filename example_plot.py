@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 from plotter import Plotter
 
@@ -9,7 +10,7 @@ if len(sys.argv) > 1:
 
     elif sys.argv[1] == 'socket':
         from socket_reader import Reader
-        reader = Reader('10.0.2.50', port=50007)
+        reader = Reader('10.0.2.53', port=50007)
 
     elif sys.argv[1] == 'pipe':
         from pipe_reader import Reader
