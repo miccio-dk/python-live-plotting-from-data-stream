@@ -5,8 +5,11 @@
 * Unauthorized copying of this file, via any medium is strictly prohibited
 * Proprietary and confidential
 *
-* Written by Allan Hein <allan@danishaviationsystems.dk>
-* Last updated 2016-03-10
+* Written by Allan Hein <allan@d0st3n.dk>
+* Created 2016-03-10
+* 
+* Updated 2016-29-12 - By Allan Hein
+*  - Changed serial reading to be blocking instead of interval, this spare a bit of cpu power
 * -----------------------------------------------------------------------
 */
 
@@ -239,10 +242,10 @@ void *serial_listner(void *attr)
       }
       clientsMutex.unlock();
     }
-    else
-    {
-      usleep(1000000/LOOP_FREQ_SERIAL);
-    }
+    //else
+    //{
+    //  usleep(1000000/LOOP_FREQ_SERIAL);
+    //}
 
 #ifdef DEBUG_MODE
     ++count;
@@ -273,7 +276,7 @@ int main(int argc, char const *argv[])
     socket_port = atoi(argv[2]);
   }
 
-  SimpleSerial serial(argv[1], 115200, true);
+  SimpleSerial serial(argv[1], 115200, false);
 
   if(!serial.isConnceted())
   {

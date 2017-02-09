@@ -1,0 +1,2031 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"raw",
+				"rawData\tstatement"
+			],
+			[
+				"gps",
+				"gpsPos_"
+			],
+			[
+				"new",
+				"newECEF"
+			],
+			[
+				"coo",
+				"coordinates"
+			],
+			[
+				"ra",
+				"radiansPerDegree"
+			],
+			[
+				"cons",
+				"constexpr"
+			],
+			[
+				"ece",
+				"ecef_to_geo"
+			],
+			[
+				"con",
+				"controller"
+			],
+			[
+				"update",
+				"updateSystem"
+			],
+			[
+				"data",
+				"dataSets"
+			],
+			[
+				"da",
+				"dataCollection"
+			],
+			[
+				"ac",
+				"avgAcc"
+			],
+			[
+				"vecto",
+				"vectorT"
+			],
+			[
+				"las",
+				"lastMag"
+			],
+			[
+				"set",
+				"setGyrBias\tvoid setGyrBias(const Vector<float> &data)"
+			],
+			[
+				"acc",
+				"accLastTimestamp"
+			],
+			[
+				"vec",
+				"vec2Gyr"
+			],
+			[
+				"nor",
+				"normalize"
+			],
+			[
+				"prev",
+				"prevAccNorm"
+			],
+			[
+				"NO",
+				"NO_DATA"
+			],
+			[
+				"SENSOR",
+				"SENSOR_LIDAR"
+			],
+			[
+				"START",
+				"STARTUPSRC"
+			],
+			[
+				"uint",
+				"uint32_t"
+			],
+			[
+				"dire",
+				"direcitonChange"
+			],
+			[
+				"no",
+				"normalize"
+			],
+			[
+				"mag",
+				"magParams"
+			],
+			[
+				"es",
+				"estimator"
+			],
+			[
+				"vect",
+				"vectorT"
+			],
+			[
+				"norm",
+				"normalize\tvoid normalize()"
+			],
+			[
+				"time",
+				"timeNow"
+			],
+			[
+				"sta",
+				"static_cast"
+			],
+			[
+				"trans",
+				"transform\t_OutputIterator transform(_InputIterator1 __first1, _InputIterator1 __last1, _InputIterator2 __first2, _OutputIterator __result, _BinaryOperation __binary_op)"
+			],
+			[
+				"tra",
+				"transpose\tMatrix<100U, 100U, double> transpose() const"
+			],
+			[
+				"re",
+				"result"
+			],
+			[
+				"str",
+				"strength"
+			],
+			[
+				"conec",
+				"connectionLines"
+			],
+			[
+				"conne",
+				"connectionLines"
+			],
+			[
+				"_",
+				"_connections"
+			],
+			[
+				"emplace",
+				"emplace_back\tvoid emplace_back(_Args &&__args...)"
+			],
+			[
+				"make",
+				"make_shared\tshared_ptr<_Tp> make_shared<typename _Tp>(_Args &&__args...)"
+			],
+			[
+				"curre",
+				"_currentLength"
+			],
+			[
+				"print",
+				"printSim"
+			],
+			[
+				"prn",
+				"printPosEvery"
+			],
+			[
+				"sur",
+				"survivorID"
+			],
+			[
+				"conn",
+				"connectons"
+			],
+			[
+				"em",
+				"emplace_back"
+			],
+			[
+				"cr",
+				"crawler"
+			],
+			[
+				"reset",
+				"resetVel"
+			],
+			[
+				"popu",
+				"populationSize"
+			],
+			[
+				"crawler",
+				"crawlers"
+			],
+			[
+				"mu",
+				"mutationParamters"
+			],
+			[
+				"eig",
+				"eigenValues"
+			],
+			[
+				"ei",
+				"eigenVectors"
+			],
+			[
+				"we",
+				"weights"
+			],
+			[
+				"common",
+				"commonAxisAngle\t(orientationTools.py)"
+			],
+			[
+				"ori",
+				"orientationTools"
+			],
+			[
+				"NotIm",
+				"NotImplementedError〔class〕"
+			],
+			[
+				"q",
+				"qua"
+			],
+			[
+				"mom",
+				"momentB"
+			],
+			[
+				"des",
+				"des_state"
+			],
+			[
+				"ex",
+				"exp1"
+			],
+			[
+				"De",
+				"DesiredState"
+			],
+			[
+				"cu",
+				"currentTime"
+			],
+			[
+				"last",
+				"lastSampledAt"
+			],
+			[
+				"eu",
+				"eulerAnglesG"
+			],
+			[
+				"euler",
+				"eulerToRotMat\t(quaternionUtils.py)"
+			],
+			[
+				"quater",
+				"quaternion"
+			],
+			[
+				"upda",
+				"update"
+			],
+			[
+				"rotation",
+				"rotationQuaternion\t(quaternionUtils.py)"
+			],
+			[
+				"qua",
+				"quaternionToRotMat"
+			],
+			[
+				"rand",
+				"random\t(returnToOrigin.tex)"
+			],
+			[
+				"ad",
+				"add_subplot"
+			],
+			[
+				"plot",
+				"plot3D"
+			],
+			[
+				"tot",
+				"totalSteps"
+			],
+			[
+				"al",
+				"alphaE"
+			],
+			[
+				"omegaB",
+				"omegaBtoEulerRates〔function〕"
+			],
+			[
+				"eul",
+				"euler"
+			],
+			[
+				"se",
+				"segment"
+			],
+			[
+				"way",
+				"waypoints"
+			],
+			[
+				"path",
+				"pathGenerator"
+			],
+			[
+				"total",
+				"totalTime"
+			],
+			[
+				"yaw",
+				"yawdot"
+			],
+			[
+				"wa",
+				"waypoint"
+			],
+			[
+				"mat",
+				"matplotlib"
+			],
+			[
+				"hr",
+				"helixTotalTime〔variable〕"
+			],
+			[
+				"up",
+				"update_lines"
+			],
+			[
+				"local",
+				"localCopy"
+			],
+			[
+				"quaternion",
+				"quaternionToEuler"
+			],
+			[
+				"Re",
+				"Receive"
+			],
+			[
+				"rece",
+				"receiver"
+			],
+			[
+				"recei",
+				"receiverArgs"
+			],
+			[
+				"sh",
+				"sharedMemory"
+			],
+			[
+				"dat",
+				"dataZ〔variable〕"
+			],
+			[
+				"random",
+				"randomNumbers"
+			],
+			[
+				"toT",
+				"toRotationMatrix"
+			],
+			[
+				"hel",
+				"helixTotalTime\tstatement"
+			],
+			[
+				"ome",
+				"omegaB\tstatement"
+			],
+			[
+				"yl",
+				"ylim\tfunction"
+			],
+			[
+				"rota",
+				"rotationMatrix"
+			],
+			[
+				"rot",
+				"rotMat"
+			],
+			[
+				"with",
+				"wihtin"
+			],
+			[
+				"Arduino",
+				"Arduino-Makefile"
+			],
+			[
+				"MPU",
+				"MPU6050\t(qwe.ino)"
+			],
+			[
+				"ARDUINO",
+				"ARDUINO_DIR"
+			],
+			[
+				"gyr",
+				"gyrData"
+			],
+			[
+				"normal",
+				"normalize\t(quaternionInline.hpp)"
+			],
+			[
+				"Q",
+				"Quaternion\t(quaternionInline.hpp)"
+			],
+			[
+				"QUA",
+				"QUATERNION_INPLACE_ARITHMETIC_OP"
+			],
+			[
+				"p",
+				"pPrime"
+			],
+			[
+				"isI",
+				"isinstance〔function〕"
+			],
+			[
+				"is",
+				"isinstance〔function〕"
+			],
+			[
+				"tit",
+				"titles"
+			],
+			[
+				"debug",
+				"debug_print"
+			],
+			[
+				"accI",
+				"accInvScaler1"
+			],
+			[
+				"mpu1",
+				"mpu1_acc"
+			],
+			[
+				"float",
+				"floatLimitCheck"
+			],
+			[
+				"file",
+				"fileName"
+			],
+			[
+				"bytes",
+				"bytesToRead"
+			],
+			[
+				"chThd",
+				"chThdSleepMilliseconds"
+			],
+			[
+				"FLOAT",
+				"PIN_PUPDR_FLOATING"
+			],
+			[
+				"PIN_MODE_A",
+				"PIN_MODE_ALTERNATE"
+			],
+			[
+				"PULLDOWN",
+				"PIN_PUPDR_PULLDOWN"
+			],
+			[
+				"PIN_MODE",
+				"PIN_MODE_ALTERNATE"
+			],
+			[
+				"aln",
+				"alternative"
+			],
+			[
+				"INP",
+				"PIN_MODE_INPUT"
+			],
+			[
+				"output",
+				"PIN_MODE_OUTPUT"
+			],
+			[
+				"PIN_PU",
+				"PIN_PUPDR_PULLUP"
+			],
+			[
+				"PIN_P",
+				"PIN_PUPDR_PULLUP"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 132.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"edit",
+				"Project: Edit Project"
+			],
+			[
+				"close",
+				"Project: Close"
+			],
+			[
+				"format",
+				"Clang Format: Select Style"
+			],
+			[
+				"install ",
+				"Package Control: Install Package"
+			],
+			[
+				"clos",
+				"File: Close All"
+			],
+			[
+				"lower",
+				"Convert Case: Lower Case"
+			],
+			[
+				"upper",
+				"Convert Case: Upper Case"
+			],
+			[
+				"ren",
+				"File: Rename"
+			],
+			[
+				"merge",
+				"Sublimerge: Compare to View..."
+			],
+			[
+				"setting",
+				"EasyClangComplete: Settings"
+			],
+			[
+				"settings",
+				"EasyClangComplete: Settings"
+			],
+			[
+				"easy",
+				"EasyClangComplete: Settings"
+			],
+			[
+				"easycla",
+				"EasyClangComplete: Settings"
+			],
+			[
+				"rename",
+				"File: Rename"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"sort",
+				"Sort Lines"
+			],
+			[
+				"clo",
+				"File: Close All"
+			],
+			[
+				"cl",
+				"File: Close All"
+			],
+			[
+				"python",
+				"Set Syntax: Python"
+			],
+			[
+				"rena",
+				"File: Rename"
+			],
+			[
+				"c++",
+				"Set Syntax: C++"
+			],
+			[
+				"diff",
+				"Set Syntax: Diff"
+			],
+			[
+				"figure",
+				"Snippet: figure"
+			],
+			[
+				"inc",
+				"increment"
+			],
+			[
+				"center",
+				"Snippet: header_centered"
+			],
+			[
+				"syntax c",
+				"Set Syntax: C"
+			],
+			[
+				"command",
+				"Preferences: Commands - User"
+			],
+			[
+				"packa",
+				"Preferences: Browse Packages"
+			],
+			[
+				"prefere",
+				"Preferences: Settings - User"
+			],
+			[
+				"snippet",
+				"Snippet: Sub Section"
+			],
+			[
+				"settin",
+				"Preferences: Settings - User"
+			],
+			[
+				"indentation",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"anaconda",
+				"Anaconda: Next lint error"
+			],
+			[
+				"header",
+				"Snippet: header_centered"
+			],
+			[
+				"show",
+				"Anaconda: Show error list"
+			],
+			[
+				"shoe",
+				"Anaconda: Show error list"
+			],
+			[
+				"syntax: p",
+				"Set Syntax: Python"
+			],
+			[
+				"headr",
+				"Snippet: header_centered"
+			],
+			[
+				"codei",
+				"SublimeCodeIntel: Enable Live Autocompletion for Current Language"
+			],
+			[
+				"linter",
+				"SublimeLinter: Disable Debug Mode"
+			],
+			[
+				"xkcd",
+				"Xkcd: Latest"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"remove ",
+				"Package Control: Remove Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"proje",
+				"Project: Close"
+			],
+			[
+				"install pa",
+				"Package Control: Install Package"
+			],
+			[
+				"menu",
+				"View: Toggle Menu"
+			],
+			[
+				"projec",
+				"Project: Edit Project"
+			],
+			[
+				"word",
+				"Word Wrap: Toggle"
+			],
+			[
+				"side",
+				"View: Toggle Side Bar"
+			],
+			[
+				"proj",
+				"Project: Close"
+			],
+			[
+				"set py",
+				"Set Syntax: Python"
+			],
+			[
+				"head",
+				"Snippet: comm-header"
+			],
+			[
+				"men",
+				"View: Toggle Menu"
+			],
+			[
+				"ifdef",
+				"Snippet: ifdef_cplusplus"
+			],
+			[
+				"ifnd",
+				"Snippet: ifndef_def"
+			],
+			[
+				"instlal",
+				"Package Control: Install Package"
+			],
+			[
+				"set c",
+				"Set Syntax: C"
+			],
+			[
+				"set java",
+				"Set Syntax: Java"
+			],
+			[
+				"conver",
+				"Convert Case: Swap Case"
+			],
+			[
+				"set html",
+				"Set Syntax: HTML"
+			],
+			[
+				"clan for",
+				"Clang Format: Format Selection"
+			],
+			[
+				"forma",
+				"Clang Format: Format Selection"
+			],
+			[
+				"form",
+				"Clang Format: Format Selection"
+			],
+			[
+				"clan se",
+				"Clang Format: Format Selection"
+			],
+			[
+				"clan",
+				"Clang Format: Select Style"
+			],
+			[
+				"set python",
+				"Set Syntax: Python"
+			],
+			[
+				"lower ",
+				"Convert Case: Lower Case"
+			],
+			[
+				"ifde",
+				"Snippet: ifdef_cplusplus"
+			],
+			[
+				"ifnde",
+				"Snippet: ifndef_def"
+			],
+			[
+				"save ",
+				"Project: Save As"
+			],
+			[
+				"set ic",
+				"Set Syntax: C Improved"
+			],
+			[
+				"ifn",
+				"Snippet: ifndef_def"
+			],
+			[
+				"inden",
+				"Indentation: Reindent Lines"
+			],
+			[
+				"set #",
+				"Set Syntax: C#"
+			],
+			[
+				"shell",
+				"Set Syntax: Shell Script (Bash)"
+			],
+			[
+				"ci",
+				"Set Syntax: C Improved"
+			],
+			[
+				"init",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"set c i",
+				"Set Syntax: C Improved"
+			],
+			[
+				"set ci",
+				"Set Syntax: C Improved"
+			],
+			[
+				"set css",
+				"Set Syntax: CSS"
+			],
+			[
+				"set c u",
+				"Set Syntax: Clojure"
+			],
+			[
+				"main",
+				"Snippet: main()"
+			],
+			[
+				"set c im",
+				"Set Syntax: C Improved"
+			],
+			[
+				"set sql",
+				"Set Syntax: SQL"
+			],
+			[
+				"IFDE",
+				"Snippet: ifdef_cplusplus"
+			],
+			[
+				"set mak",
+				"Set Syntax: Makefile"
+			],
+			[
+				"set impr",
+				"Set Syntax: C Improved"
+			],
+			[
+				"ifdef ",
+				"Snippet: ifdef_cplusplus"
+			],
+			[
+				"word wra",
+				"Word Wrap: Toggle"
+			],
+			[
+				"UPPER",
+				"Convert Case: Upper Case"
+			],
+			[
+				"LOWER",
+				"Convert Case: Lower Case"
+			],
+			[
+				"ME",
+				"View: Toggle Menu"
+			],
+			[
+				"ifd",
+				"Snippet: ifdef_cplusplus"
+			],
+			[
+				"mneu",
+				"Text Pastry: Menu"
+			],
+			[
+				"rebuid",
+				"CTags: Rebuild Tags"
+			],
+			[
+				"ctags",
+				"CTags: Rebuild Tags"
+			],
+			[
+				"upperca",
+				"Convert Case: Upper Case"
+			],
+			[
+				"dis",
+				"Package Control: Disable Package"
+			],
+			[
+				"set",
+				"Set Syntax: R"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"IFDEF C",
+				"Snippet: ifdef_cplusplus"
+			],
+			[
+				"IF DEF ",
+				"Snippet: ifdef_cplusplus"
+			],
+			[
+				"LOW",
+				"Convert Case: Lower Case"
+			],
+			[
+				"low",
+				"Convert Case: Lower Case"
+			],
+			[
+				"set text",
+				"Set Syntax: Textile"
+			],
+			[
+				"lowe",
+				"Convert Case: Lower Case"
+			],
+			[
+				"text menu",
+				"Text Pastry: Menu"
+			],
+			[
+				"text pas menu",
+				"Text Pastry: Menu"
+			],
+			[
+				"list pa",
+				"Package Control: List Packages"
+			],
+			[
+				"list ",
+				"Package Control: List Packages"
+			],
+			[
+				"vi",
+				"File: New View into File"
+			],
+			[
+				"block",
+				"Toggle Block Comment"
+			],
+			[
+				"if c",
+				"Snippet: ifdef_cplusplus"
+			],
+			[
+				"ifnden",
+				"Snippet: #ifndef … #define … #endif"
+			],
+			[
+				"convert",
+				"Indentation: Convert to Spaces"
+			],
+			[
+				"HEADER",
+				"Snippet: header_comment"
+			],
+			[
+				"IFC",
+				"Snippet: ifdef_cplusplus"
+			],
+			[
+				"rever",
+				"Permute Lines: Reverse"
+			],
+			[
+				"snipp",
+				"Snippet: Comment"
+			],
+			[
+				"hea",
+				"Snippet: comm-header"
+			],
+			[
+				"upp",
+				"Convert Case: Upper Case"
+			],
+			[
+				"lowr",
+				"Convert Case: Lower Case"
+			],
+			[
+				"comment",
+				"Snippet: header_comment"
+			],
+			[
+				"comm",
+				"Snippet: comm-header"
+			],
+			[
+				"chea",
+				"Snippet: comm-header"
+			],
+			[
+				"com",
+				"Snippet: comm-header"
+			]
+		],
+		"width": 485.0
+	},
+	"console":
+	{
+		"height": 569.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": false,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/erik/Projects/python-live-plotting-from-data-stream"
+	],
+	"file_history":
+	[
+		"/home/erik/Projects/python-live-plotting-from-data-stream/ython-live-plotting-from-data-stream.sublime-project",
+		"/home/erik/Projects/autopilot/applications/position_estimator/include/position_estimator.h",
+		"/home/erik/Projects/autopilot/src/system_init.cpp",
+		"/home/erik/Projects/autopilot/applications/orientation_estimator/src/orientation_estimator.cpp",
+		"/home/erik/Projects/autopilot/Makefile",
+		"/home/erik/Projects/autopilot/applications/position_estimator/include/kalman.h",
+		"/home/erik/Projects/python-live-plotting-from-data-stream/socket_reader.py",
+		"/home/erik/Projects/python-live-plotting-from-data-stream/plotter.py",
+		"/home/erik/Projects/python-live-plotting-from-data-stream/example_plot.py",
+		"/home/erik/Projects/python-live-plotting-from-data-stream/serial_reader.py",
+		"/home/erik/Projects/autopilot/applications/nmea/include/nmea.hpp",
+		"/home/erik/Projects/autopilot/applications/nmea/gps_data_documentation",
+		"/home/erik/Dropbox/Uni/MasterThesis/tex/figs/licenses.txt",
+		"/home/erik/Projects/autopilot/applications/preprocessor/include/sensorDataUtils.h",
+		"/home/erik/Projects/autopilot/applications/nmea/src/nmea.cpp",
+		"/home/erik/tmpCode/cpp/wgs84/wgsTest.cpp",
+		"/home/erik/tmpCode/cpp/floatPrecision/test.cpp",
+		"/home/erik/tmpCode/cpp/floatPrecision/quick_plot.py",
+		"/home/erik/Projects/cpputils/include/cpputils/ParseArguments.h",
+		"/home/erik/Projects/cpputils/include/cpputils/Oa",
+		"/home/erik/tmpCode/cpp/wgsTest.cpp",
+		"/home/erik/tmpCode/cpp/init.cpp",
+		"/home/erik/Projects/autopilot/applications/orientation_estimator/include/mahony.hpp",
+		"/home/erik/Projects/autopilot/applications/orientation_estimator/include/direct_quaternion.hpp",
+		"/home/erik/Projects/generatingScripts/constant_rotation_data",
+		"/home/erik/Projects/autopilot/applications/mpu9250/include/mpu9250.h",
+		"/home/erik/Projects/autopilot/applications/orientation_estimator/include/madgwickReadable.hpp",
+		"/home/erik/Projects/autopilot/applications/controller/include/controller.hpp",
+		"/home/erik/Projects/autopilot/src/main.cpp",
+		"/home/erik/Projects/autopilot/applications/controller/src/controller.cpp",
+		"/home/erik/Projects/autopilot/applications/pwm_serial/include/pwm_serial.hpp",
+		"/home/erik/Projects/autopilot/applications/pwm_serial/src/pwm_serial.cpp",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/os/various/shell.cpp",
+		"/home/erik/Projects/uav-sim-cpp/utilities.h",
+		"/home/erik/Projects/autopilot/applications/cli/src/cli.cpp",
+		"/home/erik/Projects/autopilot/applications/position_estimator/src/position_estimator.cpp",
+		"/home/erik/Projects/autopilot/applications/preprocessor/src/preprocessor.cpp",
+		"/home/erik/Projects/autopilot/applications/orientation_estimator/orientation_estimator.mk",
+		"/home/erik/Projects/autopilot/applications/orientation_estimator/src/alt_gyr.cpp",
+		"/home/erik/Projects/autopilot/applications/position_estimator/src/kalman.cpp",
+		"/home/erik/Projects/autopilot/applications/orientation_estimator/include/orientation_estimator.h",
+		"/home/erik/Projects/autopilot/applications/orientation_estimator/include/alternativeangularrate.hpp",
+		"/home/erik/Projects/generatingScripts/alternate_gyr/time_plot.py",
+		"/home/erik/Projects/generatingScripts/alternate_gyr/hist_plot.py",
+		"/home/erik/Projects/generatingScripts/helperFunctions.py",
+		"/home/erik/Projects/generatingScripts/alternate_gyr/quick_plot.py",
+		"/home/erik/Projects/generatingScripts/IMU_stats/time_series.py",
+		"/home/erik/Projects/UAVsimulation/simLib.py",
+		"/home/erik/Projects/UAVsimulation/screens.py",
+		"/home/erik/Projects/UAVsimulation/pathConstructors.py",
+		"/home/erik/Projects/UAVsimulation/orientaionSim.py",
+		"/home/erik/Projects/UAVsimulation/simLib2d.py",
+		"/home/erik/Projects/generatingScripts/IMU_stats/read_log_data.py",
+		"/home/erik/Projects/autopilot/applications/printer/include/printer.hpp",
+		"/home/erik/Projects/autopilot/applications/orientation_estimator/src/orientation_estimator_mahony.cpp",
+		"/home/erik/Projects/Orientation-Estimation-cpp/madgwick.hpp",
+		"/home/erik/Projects/autopilot/libs/quaternion/quaternion.h",
+		"/home/erik/Projects/autopilot/libs/vector3d-cpp/vector.h",
+		"/home/erik/Projects/autopilot/applications/alternativeAngularRate/include/alternativeangularrate.hpp",
+		"/home/erik/Projects/autopilot/.clang_complete",
+		"/home/erik/Projects/autopilot/DasAutopilot.sublime-project",
+		"/home/erik/Projects/autopilot/applications/mag_calibration/include/mag_calibration.hpp",
+		"/home/erik/Projects/autopilot/src/main_SDCARD.cpp",
+		"/home/erik/Projects/autopilot/libs/vector3d-cpp/vector.mk",
+		"/home/erik/Projects/autopilot/libs/vector3d-cpp/quaternion.mk",
+		"/home/erik/Projects/autopilot/applications/utilities/include/vector.h",
+		"/home/erik/Projects/autopilot/.gitmodules",
+		"/home/erik/Projects/autopilot/.git/config",
+		"/home/erik/Projects/autopilot/libs/Minimal_Matrix_Lib/array_based/matrix.h",
+		"/home/erik/Projects/autopilot/libs/Minimal_Matrix_Lib/arm_based/matrix.h",
+		"/home/erik/.i3/config",
+		"/home/erik/Projects/autopilot/applications/lidar/src/lidar.cpp",
+		"/home/erik/Projects/autopilot/applications/temp_config/include/temp_config.h",
+		"/home/erik/Projects/autopilot/applications/debugger/src/debugger.cpp",
+		"/home/erik/Projects/autopilot/applications/debugger/include/debugger.h",
+		"/home/erik/Dropbox/Kodemappen/snake/Snake",
+		"/home/erik/Dropbox/Kodemappen/snake/Snake.cpp",
+		"/home/erik/Projects/autopilot/applications/mpu9250/src/mpu9250.cpp",
+		"/home/erik/Projects/autopilot/applications/bmp280/include/bmp280.h",
+		"/home/erik/Projects/autopilot/applications/temp_config/src/temp_config.cpp",
+		"/home/erik/Projects/autopilot/applications/lidar/include/lidar.h",
+		"/home/erik/Projects/autopilot/mcuconf.h",
+		"/home/erik/Projects/autopilot/applications/orientation_estimator/include/madgwick_original.hpp",
+		"/home/erik/Projects/autopilot/applications/mag_reader/src/mag_reader.cpp",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/community/testhal/STM32/STM32F4xx/EICU/EICU_F4x.config",
+		"/home/erik/Projects/autopilot/applications/lidar/lidar.mk",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/os/ext/CMSIS/include/core_cm7.h",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/os/common/ports/ARMCMx/devices/STM32F7xx/cmparams.h",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/os/ext/CMSIS/ST/STM32F7xx/stm32f7xx.h",
+		"/home/erik/Projects/autopilot/libs/boards/autopilot/board.h",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/os/ext/CMSIS/include/arm_math.h",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/os/ext/CMSIS/DSP_Lib/Source/SupportFunctions/arm_copy_q15.c",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/os/ext/CMSIS/ST/STM32F7xx/stm32f745xx.h",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/os/ext/CMSIS/ST/STM32F7xx/stm32f746xx.h",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/os/rt/include/ch.h",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/os/common/ports/ARMCMx/compilers/GCC/mk/startup_stm32f7xx.mk",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/os/rt/ports/ARMCMx/chcore.h",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/os/ext/CMSIS/DSP_Lib/Source/math.mk",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/os/common/ports/ARMCMx/devices/K20x/cmparams.h",
+		"/home/erik/Projects/autopilot/libs/ChibiOS_16.1.4/os/ext/CMSIS/DSP_Lib/Source/MatrixFunctions/arm_mat_init_f32.c",
+		"/home/erik/Projects/autopilot/libs/Minimal_Matrix_Lib/arm_based/matrix.mk",
+		"/home/erik/Projects/autopilot/libs/Minimal_Matrix_Lib/arm_based/matrix.",
+		"/home/erik/Projects/Orientation-Estimation-cpp/test/convergence_test.cpp",
+		"/home/erik/Projects/Orientation-Estimation-cpp/Simple-Matrix-Lib/2d_matrix_simple.h",
+		"/home/erik/Projects/autopilot/libs/Minimal_Matrix_Lib/array_based/matrix.mk",
+		"/home/erik/Projects/autopilot/applications/position_estimator/include/kalmanMC.h",
+		"/home/erik/Projects/autopilot/.dep/cli.o.d",
+		"/home/erik/Projects/autopilot/.dep/controller.o.d",
+		"/home/erik/Projects/autopilot/.dep/kalman.o.d",
+		"/home/erik/Projects/autopilot/.dep/position_estimator.o.d",
+		"/home/erik/Projects/autopilot/.dep/pwm_serial.o.d",
+		"/home/erik/Projects/autopilot/.dep/remote_input.o.d",
+		"/home/erik/Projects/autopilot/.dep/system_init.o.d",
+		"/home/erik/Projects/autopilot/build/autopilot.elf",
+		"/home/erik/Dropbox/Uni/MasterThesis/tex/figs/generatingScripts/acc_integration/move.py",
+		"/home/erik/Dropbox/Uni/MasterThesis/tex/figs/generatingScripts/acc_integration/int.py",
+		"/home/erik/Projects/Simple-Matrix-Lib/2d_matrix_simple.h",
+		"/home/erik/Projects/autopilot/read_data_file.cpp",
+		"/home/erik/Dropbox/Uni/MasterThesis/tex/figs/generatingScripts/IMU_stats/time_series.py",
+		"/home/erik/Dropbox/Uni/MasterThesis/tex/figs/generatingScripts/IMU_stats/read_log_data.py",
+		"/home/erik/Projects/Orientation-Estimation-cpp/test/CMakeLists.txt",
+		"/home/erik/Projects/Orientation-Estimation-cpp/CMakeLists.txt",
+		"/home/erik/Projects/Orientation-Estimation-cpp/estimation_tools.hpp",
+		"/home/erik/Projects/Orientation-Estimation-cpp/.gitignore",
+		"/home/erik/Projects/Orientation-Estimation-cpp/filter.hpp",
+		"/home/erik/Projects/vector3d-cpp/vector.h",
+		"/home/erik/Projects/Orientation-Estimation/filters.py",
+		"/home/erik/Projects/Orientation-Estimation/orientation_tools.py"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+			"~/Projects/autopilot/,*.cpp,*.h*",
+			"~/Projects/autopilot/,*.cpp,*.h*,*.mk",
+			"~/Projects/autopilot/,*.cpp,*.h*",
+			"~/Projects/autopilot/",
+			"~/Projects/autopilot/.git/",
+			"~/Projects/autopilot",
+			".git",
+			".",
+			"/home/erik/Dropbox/Uni/Bachelor,*.tex",
+			"/home/erik/Dropbox/Uni/MasterThesis/tex",
+			"/home/erik/Dropbox/Uni/MasterThesis/src",
+			"/home/erik/Dropbox/Uni/MasterThesis",
+			"/home/erik/Dropbox/MasterThesis",
+			"/home/erik/.config/sublime-text-3/Packages",
+			"/home/erik/.config/sublime-text-3/",
+			"/home/erik/.config/sublime-text-3/Cache/LaTeX",
+			"/home/erik/Dropbox/Uni/,*.py",
+			"/home/erik/Dropbox/Uni/Bachelor/",
+			"/home/erik/Projects/Quad",
+			"/home/erik/Projects/Quad]",
+			"/home/erik/Projects/",
+			"/home/erik/Projects/DAS/DAS/chibios/",
+			"/home/erik/Projects/DAS/DAS/chibios/applications",
+			"/home/erik/Dropbox/Uni/Bachelor"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"rawData",
+			"return rawData, [], False",
+			"rawData",
+			"False",
+			"reader",
+			"format {",
+			" {",
+			"{",
+			"being",
+			"valLocalNed",
+			"velVN",
+			"ZArr",
+			"gpsPos_",
+			"tra",
+			";",
+			"lastGpsTimestamp",
+			"measurementFlags",
+			"_,",
+			"_",
+			"bar",
+			"gpsPos_",
+			"sharedData",
+			"static",
+			"float",
+			"6378137.0",
+			"double",
+			"nextafterf",
+			"doubble",
+			"float",
+			"double",
+			"float",
+			"double",
+			"std",
+			"newECEF",
+			"here",
+			"float",
+			"double",
+			"float",
+			"hereAgain",
+			"here",
+			"Geo[1]",
+			"geo[1]",
+			"piPerDegree",
+			"std::sin(geo[0])",
+			"double",
+			"3",
+			"return",
+			"float",
+			"Vector<T>",
+			"utils",
+			"// if(up_callback != NULL){",
+			"// if(up_callback != NULL){\n              //   (up_callback_obj->*up_callback)(true, 0, -1);\n              // }",
+			"controller",
+			"float",
+			"controllerThd",
+			"controller",
+			"float",
+			"T",
+			"up_callback",
+			"pwm_cb_up",
+			"TiltYaw",
+			"path",
+			"useMotors",
+			"motorMin",
+			"g",
+			"floatT",
+			"Controller2",
+			"x",
+			"y",
+			"x",
+			"alt",
+			"geo[2]",
+			"lon",
+			"lat",
+			"alt",
+			"lon",
+			"lat",
+			"n",
+			"debug_print",
+			"        //",
+			"debug_print",
+			"Kalman",
+			"utils",
+			"{}",
+			";",
+			"magTime",
+			"acc",
+			"accTime",
+			"oldAcc",
+			"debug_print",
+			"if (global_microsec",
+			"suplabel",
+			"sublabel",
+			"plt",
+			"# plt.show()",
+			"fig.savefig",
+			"fig",
+			"mt",
+			"ax",
+			"d",
+			"acc",
+			"line[1:]",
+			"data",
+			"label",
+			"line[0]",
+			"magGyr",
+			"utils::print",
+			"lastPrint",
+			"utils",
+			"utils::print",
+			"avg",
+			"avgAcc",
+			"lp",
+			"GyrFromFieldLP",
+			" * 0.1;",
+			"vectorT",
+			", ",
+			"Acc",
+			"lastAcc",
+			"static_cast",
+			"(now - lastTime)",
+			"normalize",
+			"const",
+			"auto",
+			"acc",
+			"GyrFromMag",
+			"/*",
+			"debug_print"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": true,
+		"regex": false,
+		"replace_history":
+		[
+			"SensorPreprocessor<floatT, uint32_t>",
+			"SensorPreprocessor<T, uint32_t>",
+			"matrix.h",
+			"i.e",
+			"\\hat{\\dot{\\vec{v}}}(t)",
+			"\\hat{\\vec{x"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 364.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.latextools":
+	{
+		"height": 129.0
+	},
+	"pinned_build_system": "Packages/LaTeXTools/LaTeX.sublime-build",
+	"project": "python-live-plotting-from-data-stream.sublime-project",
+	"replace":
+	{
+		"height": 38.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"orie",
+				"applications/orientation_estimator/src/orientation_estimator.cpp"
+			],
+			[
+				"system",
+				"src/system_init.cpp"
+			],
+			[
+				"make",
+				"Makefile"
+			],
+			[
+				"nmea",
+				"applications/nmea/include/nmea.hpp"
+			],
+			[
+				"kalman",
+				"applications/position_estimator/include/kalman.h"
+			],
+			[
+				"sensordata",
+				"applications/preprocessor/include/sensorDataUtils.h"
+			],
+			[
+				"nmeacpp",
+				"applications/nmea/src/nmea.cpp"
+			],
+			[
+				"posi",
+				"applications/position_estimator/include/position_estimator.h"
+			],
+			[
+				"direct",
+				"applications/orientation_estimator/include/direct_quaternion.hpp"
+			],
+			[
+				"syste",
+				"src/system_init.cpp"
+			],
+			[
+				"mahony",
+				"applications/orientation_estimator/include/mahony.hpp"
+			],
+			[
+				"orient",
+				"applications/orientation_estimator/src/orientation_estimator.cpp"
+			],
+			[
+				"orien",
+				"applications/orientation_estimator/src/orientation_estimator.cpp"
+			],
+			[
+				"madg",
+				"applications/orientation_estimator/include/madgwickReadable.hpp"
+			],
+			[
+				"controller",
+				"applications/controller/include/controller.hpp"
+			],
+			[
+				"main",
+				"src/main.cpp"
+			],
+			[
+				"snesordata",
+				"applications/preprocessor/include/sensorDataUtils.h"
+			],
+			[
+				"madgwi",
+				"applications/orientation_estimator/include/madgwickReadable.hpp"
+			],
+			[
+				"pwm",
+				"applications/pwm_serial/src/pwm_serial.cpp"
+			],
+			[
+				"pwmse",
+				"applications/pwm_serial/src/pwm_serial.cpp"
+			],
+			[
+				"shell",
+				"libs/ChibiOS_16.1.4/os/various/shell.cpp"
+			],
+			[
+				"cli",
+				"applications/cli/src/cli.cpp"
+			],
+			[
+				"pwm_",
+				"applications/pwm_serial/include/pwm_serial.hpp"
+			],
+			[
+				"controlelr",
+				"applications/controller/src/controller.cpp"
+			],
+			[
+				"sens",
+				"applications/preprocessor/include/sensorDataUtils.h"
+			],
+			[
+				"prepr",
+				"applications/preprocessor/src/preprocessor.cpp"
+			],
+			[
+				"alt",
+				"applications/orientation_estimator/src/alt_gyr.cpp"
+			],
+			[
+				"pos",
+				"applications/position_estimator/include/position_estimator.h"
+			],
+			[
+				"kalm",
+				"applications/position_estimator/src/kalman.cpp"
+			],
+			[
+				"position",
+				"applications/position_estimator/src/position_estimator.cpp"
+			],
+			[
+				"ori",
+				"applications/orientation_estimator/include/orientation_estimator.h"
+			],
+			[
+				"orienta",
+				"applications/orientation_estimator/include/orientation_estimator.h"
+			],
+			[
+				"printer",
+				"applications/printer/include/printer.hpp"
+			],
+			[
+				"alter",
+				"applications/orientation_estimator/include/alternativeangularrate.hpp"
+			],
+			[
+				"madgw",
+				"applications/orientation_estimator/include/madgwickReadable.hpp"
+			],
+			[
+				"prepro",
+				"applications/preprocessor/src/preprocessor.cpp"
+			],
+			[
+				"sensordat",
+				"applications/preprocessor/include/sensorDataUtils.h"
+			],
+			[
+				"or",
+				"applications/orientation_estimator/src/orientation_estimator_mahony.cpp"
+			],
+			[
+				"quaternion",
+				"libs/quaternion/quaternion.h"
+			],
+			[
+				"vector",
+				"libs/vector3d-cpp/vector.h"
+			],
+			[
+				"madgwick",
+				"applications/orientation_estimator/include/madgwickReadable.hpp"
+			],
+			[
+				"posit",
+				"applications/position_estimator/include/position_estimator.h"
+			],
+			[
+				"alterna",
+				"applications/orientation_estimator/include/alternativeangularrate.hpp"
+			],
+			[
+				".",
+				".clang_complete"
+			],
+			[
+				"mahon",
+				"applications/orientation_estimator/include/mahony.hpp"
+			],
+			[
+				".cl",
+				".clang_complete"
+			],
+			[
+				".clan",
+				".clang_complete"
+			],
+			[
+				"orientat",
+				"applications/orientation_estimator/src/orientation_estimator.cpp"
+			],
+			[
+				"main_s",
+				"src/main_SDCARD.cpp"
+			],
+			[
+				"mag_cal",
+				"applications/mag_calibration/include/mag_calibration.hpp"
+			],
+			[
+				"vec",
+				"libs/vector3d-cpp/vector.h"
+			],
+			[
+				"arm_basmatrix",
+				"libs/Minimal_Matrix_Lib/arm_based/matrix.h"
+			],
+			[
+				"arrmatrix",
+				"libs/Minimal_Matrix_Lib/array_based/matrix.h"
+			],
+			[
+				"syst",
+				"src/system_init.cpp"
+			],
+			[
+				"syte",
+				"src/system_init.cpp"
+			],
+			[
+				"sys",
+				"src/system_init.cpp"
+			],
+			[
+				"mpu92",
+				"applications/mpu9250/include/mpu9250.h"
+			],
+			[
+				"bmp",
+				"applications/bmp280/include/bmp280.h"
+			],
+			[
+				"nmea.h",
+				"applications/nmea/include/nmea.hpp"
+			],
+			[
+				"debugger",
+				"applications/debugger/include/debugger.h"
+			],
+			[
+				"temp_",
+				"applications/temp_config/include/temp_config.h"
+			],
+			[
+				"sy",
+				"src/system_init.cpp"
+			],
+			[
+				"array_based",
+				"libs/Minimal_Matrix_Lib/array_based/matrix.h"
+			],
+			[
+				"arm_based",
+				"libs/Minimal_Matrix_Lib/arm_based/matrix.h"
+			],
+			[
+				"mag_read",
+				"applications/mag_reader/src/mag_reader.cpp"
+			],
+			[
+				"mcu",
+				"mcuconf.h"
+			],
+			[
+				"mcu.conf",
+				"libs/ChibiOS_16.1.4/community/testhal/STM32/STM32F4xx/EICU/EICU_F4x.config"
+			],
+			[
+				"lidar",
+				"applications/lidar/include/lidar.h"
+			],
+			[
+				"temp_config",
+				"applications/temp_config/src/temp_config.cpp"
+			],
+			[
+				"matrix.h",
+				"libs/Minimal_Matrix_Lib/arm_based/matrix.h"
+			],
+			[
+				"core_cm7.",
+				"libs/ChibiOS_16.1.4/os/ext/CMSIS/include/core_cm7.h"
+			],
+			[
+				"arm_math",
+				"libs/ChibiOS_16.1.4/os/ext/CMSIS/include/arm_math.h"
+			],
+			[
+				"arm_copy_q15",
+				"libs/ChibiOS_16.1.4/os/ext/CMSIS/DSP_Lib/Source/SupportFunctions/arm_copy_q15.c"
+			],
+			[
+				"matrix",
+				"libs/Minimal_Matrix_Lib/arm_based/matrix.h"
+			],
+			[
+				"stm32f745",
+				"libs/ChibiOS_16.1.4/os/ext/CMSIS/ST/STM32F7xx/stm32f745xx.h"
+			],
+			[
+				"board.h",
+				"libs/boards/autopilot/board.h"
+			],
+			[
+				"stm32f7xx.h",
+				"libs/ChibiOS_16.1.4/os/ext/CMSIS/ST/STM32F7xx/stm32f7xx.h"
+			],
+			[
+				"stm32f746xx.",
+				"libs/ChibiOS_16.1.4/os/ext/CMSIS/ST/STM32F7xx/stm32f746xx.h"
+			],
+			[
+				"cmparams",
+				"libs/ChibiOS_16.1.4/os/common/ports/ARMCMx/devices/STM32F7xx/cmparams.h"
+			],
+			[
+				"chcore",
+				"libs/ChibiOS_16.1.4/os/rt/ports/ARMCMx/chcore.h"
+			],
+			[
+				"ch.h",
+				"libs/ChibiOS_16.1.4/os/rt/include/ch.h"
+			],
+			[
+				"startup_stm",
+				"libs/ChibiOS_16.1.4/os/common/ports/ARMCMx/compilers/GCC/mk/startup_stm32f7xx.mk"
+			],
+			[
+				"745",
+				"libs/ChibiOS_16.1.4/os/ext/CMSIS/ST/STM32F7xx/stm32f745xx.h"
+			],
+			[
+				"746",
+				"libs/ChibiOS_16.1.4/os/ext/CMSIS/ST/STM32F7xx/stm32f746xx.h"
+			],
+			[
+				"cmparam",
+				"libs/ChibiOS_16.1.4/os/common/ports/ARMCMx/devices/K20x/cmparams.h"
+			],
+			[
+				"chcore.h",
+				"libs/ChibiOS_16.1.4/os/rt/ports/ARMCMx/chcore.h"
+			],
+			[
+				"core_cm7",
+				"libs/ChibiOS_16.1.4/os/ext/CMSIS/include/core_cm7.h"
+			],
+			[
+				"kalma",
+				"applications/position_estimator/src/kalman.cpp"
+			],
+			[
+				"arm_math.h",
+				"libs/ChibiOS_16.1.4/os/ext/CMSIS/include/arm_math.h"
+			],
+			[
+				"arm_",
+				"libs/ChibiOS_16.1.4/os/ext/CMSIS/include/arm_math.h"
+			],
+			[
+				"madgorig",
+				"applications/orientation_estimator/include/madgwick_original.hpp"
+			],
+			[
+				"matr",
+				"libs/Minimal_Matrix_Lib/array_based/matrix.h"
+			],
+			[
+				"temp_cpp",
+				"applications/temp_config/src/temp_config.cpp"
+			],
+			[
+				"temp",
+				"applications/temp_config/include/temp_config.h"
+			],
+			[
+				"mahoy",
+				"applications/orientation_estimator/include/mahony.hpp"
+			],
+			[
+				"temp_cp",
+				"applications/temp_config/src/temp_config.cpp"
+			],
+			[
+				"shared",
+				"include/shared.h"
+			],
+			[
+				"mag_ca",
+				"applications/mag_calibration/include/mag_calibration.hpp"
+			],
+			[
+				"magca",
+				"applications/mag_calibration/include/mag_calibration.hpp"
+			],
+			[
+				"pre",
+				"applications/preprocessor/src/preprocessor.cpp"
+			],
+			[
+				"direc",
+				"applications/orientation_estimator/include/direct_quaternion.hpp"
+			],
+			[
+				"oreitencpp",
+				"applications/orientation_estimator/src/orientation_estimator.cpp"
+			],
+			[
+				"mag_hp",
+				"applications/mag_calibration/include/mag_calibration.hpp"
+			],
+			[
+				"mag_cal.cp",
+				"applications/mag_calibration/src/mag_calibration.cpp"
+			],
+			[
+				"mag_cal.h",
+				"applications/mag_calibration/include/mag_calibration.hpp"
+			],
+			[
+				"temp_.h",
+				"applications/temp_config/include/temp_config.h"
+			],
+			[
+				"share",
+				"include/shared.h"
+			],
+			[
+				"temp.h",
+				"applications/temp_config/include/temp_config.h"
+			],
+			[
+				"print",
+				"applications/printer/include/printer.hpp"
+			],
+			[
+				"contr",
+				"applications/controller/include/controller.hpp"
+			],
+			[
+				"2d",
+				"libs/Minimal_Matrix_Lib/2d_matrix_simple.h"
+			],
+			[
+				"orientatio",
+				"applications/orientation_estimator/src/orientation_estimator.cpp"
+			],
+			[
+				"gyrh",
+				"applications/gyr_calib/include/gyr_calib.hpp"
+			],
+			[
+				"quater",
+				"libs/quaternion/quaternion.h"
+			],
+			[
+				"qua",
+				"libs/quaternion/quaternion.h"
+			],
+			[
+				"controll",
+				"applications/controller/src/controller.cpp"
+			],
+			[
+				"uti",
+				"applications/utilities/include/utilities.h"
+			],
+			[
+				"madw",
+				"applications/orientation_estimator/include/madgwickReadable.hpp"
+			],
+			[
+				"utiliti",
+				"applications/utilities/include/utilities.h"
+			],
+			[
+				"remote",
+				"applications/remote_input/src/remote_input.cpp"
+			],
+			[
+				"cma",
+				"~/Projects/Simple-Matrix-Lib/test/CMakeLists.txt"
+			],
+			[
+				"craw",
+				"crawler.h"
+			],
+			[
+				"evo",
+				"evolution.h"
+			],
+			[
+				"cra",
+				"crawler.h"
+			],
+			[
+				"obj",
+				"object_oriented_sim.py"
+			],
+			[
+				"cr",
+				"crawler.h"
+			],
+			[
+				"sim.",
+				"sim.cpp"
+			],
+			[
+				"sim",
+				"sim_sample_visualizer.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 501.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Projects/python-live-plotting-from-data-stream/ython-live-plotting-from-data-stream.sublime-workspace"
+			],
+			[
+				"das",
+				"~/Projects/autopilot/DasAutopilot.sublime-project"
+			],
+			[
+				"te",
+				"~/Dropbox/Uni/MasterThesis/tex/thesisTEX.sublime-project"
+			],
+			[
+				"ori",
+				"~/Projects/Orientation-Estimation-cpp/Orientation-Estimation-cpp.sublime-project"
+			],
+			[
+				"tex",
+				"~/Dropbox/Uni/MasterThesis/tex/thesisTEX.sublime-project"
+			],
+			[
+				"set da",
+				"~/workspace/das-gimbal/tools/sublime/das-gimbal.sublime-project"
+			],
+			[
+				"gim",
+				"~/workspace/das-gimbal/tools/sublime/das-gimbal.sublime-project"
+			]
+		],
+		"width": 381.0
+	},
+	"select_symbol":
+	{
+		"height": 72.0,
+		"last_filter": "state",
+		"selected_items":
+		[
+			[
+				"state",
+				"stateDerivative"
+			],
+			[
+				"",
+				"ADC12_CDR_RDATA_SLV_10"
+			]
+		],
+		"width": 393.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 277.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

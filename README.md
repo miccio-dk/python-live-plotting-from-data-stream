@@ -13,3 +13,8 @@ To see a working example or to test functionality use writer.py and example_plot
 python writer.py pipe | python example_plot.py pipe
 
 ![Example of using three different packages](https://github.com/erikbrntsn/python-live-plotting-from-data-stream/blob/master/documentation/example_plot.png)
+
+Dependencies:
+* numpy
+* matplotlib
+* pySerial (only serial_reader.py)

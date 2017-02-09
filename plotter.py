@@ -58,10 +58,12 @@ class Plotter(object):
         self.ls = {}
         self.dataRate = {}
 
+        self.fig.canvas.mpl_connect('key_press_event', self.press)
         maxTries = 10
         self.fig.patch.set_facecolor((11/255, 11/255, 11/255))
         for i, s in enumerate(self.labels):
-            ax = self.fig.add_subplot(len(self.labels), 1, i + 1, facecolor=(22/255, 22/255, 22/255))
+            ax = self.fig.add_subplot(len(self.labels), 1, i + 1, facecolor=(22/255,)*3)
+            self.axs[s] = ax
             ax.set_xlim(0, self.n)
             ax.set_ylim(-2, 2)
             ax.xaxis.label.set_color((230/255,)*3)
@@ -84,7 +86,7 @@ class Plotter(object):
             self.indexes[s] = 0
             self.min_[s] = float('inf')
             self.max_[s] = -float('inf')
-            self.dataRate[s] = 0;
+            self.dataRate[s] = 0
 
         print("\nNumber of data points in each label:")
         print(self.ls)
@@ -137,8 +139,13 @@ class Plotter(object):
         if self.receivingCommand:
             if event.key == 'enter':
                 self.receivingCommand = False
+<<<<<<< HEAD
                 print("Sending '{:}'".format(self.command))
                 self.reader.write(self.command)
+=======
+                print("Sending {:}".format(self.command))
+                self.reader.write(self.command + "\r\n")
+>>>>>>> 4295fbaef583958b6e70a11a09ac61ec21ef5866
                 self.command = ''
             else:
                 self.command += event.key
@@ -179,7 +186,7 @@ class Plotter(object):
             print("Received command in data stream: {}".format(event.key))
             self.press(event)
         else:
-            if not s == False:
+            if s:
                 if len(data) == 0:
                     print(s)
                 else:
@@ -205,8 +212,13 @@ class Plotter(object):
         seenLabels = collections.defaultdict(int)
         for _ in range(maxTries):
             s, data, isNumerical = self.reader()
-            if isNumerical:
+            if s:
+              if isNumerical:
                 seenLabels[s] += 1
+            else:
+                # time.sleep(0.05)
+                pass
+
         # Good for noisy data for equal data rates:
         # possibleLabels = [('dummy', 1)] + sorted(seenLabels.items(), key=lambda x: x[1])
         # diffs = []
