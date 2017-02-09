@@ -7,11 +7,12 @@ class Reader(object):
     """ Sets up socket server that data streaming clients can connect to """
     # Use some random port
 
-    def __init__(self, host, port):
+    def __init__(self, host, port, dtype=float):
         self.soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("Connecting to {} at {}".format(host, port))
         self.soc.connect((host, port))
         print("Connected")
+        self.dtype = dtype
 
     def closeConnection(self):
         self.soc.close()
@@ -19,7 +20,7 @@ class Reader(object):
     def write(self, data):
         self.soc.sendall(data.encode())
 
-    def __call__(self, label=None, raw=False, dtype=float):
+    def __call__(self, label=None, raw=False):
         """ label: data group label
             raw: if true returns the data as it was read (string)
             dtype: data type that the data is converted to if raw is false """
@@ -54,7 +55,7 @@ class Reader(object):
                     # Interpret the received data
                     splittedData = rawData.split(',')
                     if label is None or label == splittedData[0]:
-                        return splittedData[0], np.array(list(map(dtype, splittedData[1:]))), True
+                        return splittedData[0], np.array(list(map(self.dtype, splittedData[1:]))), True
                 except ValueError:
                     return splittedData[0], splittedData[1:], False
                 break
