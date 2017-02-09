@@ -62,7 +62,7 @@ class Plotter(object):
         maxTries = 10
         self.fig.patch.set_facecolor((11/255, 11/255, 11/255))
         for i, s in enumerate(self.labels):
-            ax = self.fig.add_subplot(len(self.labels), 1, i + 1, facecolor=(22/255,)*3)
+            ax = self.fig.add_subplot(len(self.labels), 1, i + 1, axisbg=(22/255,)*3)
             self.axs[s] = ax
             ax.set_xlim(0, self.n)
             ax.set_ylim(-2, 2)
