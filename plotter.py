@@ -53,9 +53,13 @@ class Plotter(object):
         self.dataRate = {}
 
         self.fig.canvas.mpl_connect('key_press_event', self.press)
+        self.fig.patch.set_facecolor('black')
         maxTries = 10
         for i, s in enumerate(self.labels):
-            ax = self.fig.add_subplot(len(self.labels), 1, i + 1)
+            ax = self.fig.add_subplot(len(self.labels), 1, i + 1, facecolor=(22/255,)*3)
+            ax.xaxis.label.set_color('w')
+            ax.tick_params(axis='x', colors='w')
+            ax.tick_params(axis='y', colors='w')
             self.axs[s] = ax
             ax.set_xlim(0, self.n)
             ax.set_ylim(-2, 2)
@@ -128,7 +132,7 @@ class Plotter(object):
                 print("Writing command through reader")
                 self.receivingCommand = False
                 print("Sending {:}".format(self.command))
-                self.reader.write(self.command + "\n")
+                self.reader.write(self.command + "\r\n")
                 self.command = ''
             else:
                 self.command += event.key
