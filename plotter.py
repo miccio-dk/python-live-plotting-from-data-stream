@@ -139,13 +139,8 @@ class Plotter(object):
         if self.receivingCommand:
             if event.key == 'enter':
                 self.receivingCommand = False
-<<<<<<< HEAD
                 print("Sending '{:}'".format(self.command))
-                self.reader.write(self.command)
-=======
-                print("Sending {:}".format(self.command))
                 self.reader.write(self.command + "\r\n")
->>>>>>> 4295fbaef583958b6e70a11a09ac61ec21ef5866
                 self.command = ''
             else:
                 self.command += event.key
