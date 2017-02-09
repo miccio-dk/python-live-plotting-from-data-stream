@@ -22,7 +22,12 @@ class Plotter(object):
         self.reader = reader
         self.n = n
         self.fig = plt.figure()
-        self.setUp(labels)
+        self.fig.canvas.mpl_connect('key_press_event', self.press)
+        # self.setUp(labels)
+        if labels:
+            self.setUp(labels)
+        else:
+            self.labels = labels
 
         # print("\nPress x to resize y axes. Press q to quit.")
 
@@ -41,6 +46,7 @@ class Plotter(object):
             self.labels = labels
 
         self.c = 0
+        self.freezePlot = False
 
         self.axs = {}
         self.lineSets = {}
@@ -53,16 +59,18 @@ class Plotter(object):
         self.dataRate = {}
 
         self.fig.canvas.mpl_connect('key_press_event', self.press)
-        self.fig.patch.set_facecolor('black')
         maxTries = 10
+        self.fig.patch.set_facecolor((11/255, 11/255, 11/255))
         for i, s in enumerate(self.labels):
             ax = self.fig.add_subplot(len(self.labels), 1, i + 1, facecolor=(22/255,)*3)
-            ax.xaxis.label.set_color('w')
-            ax.tick_params(axis='x', colors='w')
-            ax.tick_params(axis='y', colors='w')
             self.axs[s] = ax
             ax.set_xlim(0, self.n)
             ax.set_ylim(-2, 2)
+            ax.xaxis.label.set_color((230/255,)*3)
+            ax.xaxis.label.set_color((230/255,)*3)
+            ax.tick_params(axis='x', colors=(230/255,)*3)
+            ax.tick_params(axis='y', colors=(230/255,)*3)
+            self.axs[s] = ax
             self.lineSets[s] = []
             for i in range(maxTries):
                 length = self.getLinesPerType(s, self.reader)
@@ -71,7 +79,7 @@ class Plotter(object):
                     break
             for j in range(self.ls[s]):
                 self.lineSets[s].append(ax.plot([], [], '.', label=chr(ord('a')+j))[0])
-            ax.set_title(s)
+            ax.set_title(s, color=(230/255,)*3)
             ax.legend(loc=2)
             self.rings[s] = np.zeros((self.n, self.ls[s]))
             self.xs[s] = np.zeros(self.n)
@@ -85,24 +93,25 @@ class Plotter(object):
 
     def update(self):
         self.getData()
-        if self.c == 100:
-            print('resetting')
-            self.reset()
-        self.c += 1
+        # if self.c == 100:
+        #     print('resetting')
+        #     self.reset()
+        # self.c += 1
         if time.time() - self.lastPlotUpdate > 0.03:
             if not self.freezePlot:
                 self.updatePlotData()
             plt.pause(0.001)
             self.lastPlotUpdate = time.time()
-        # if time.time() - self.lastStatus > 1:
-        #     rates = ""
-        #     total = 0
-        #     for l in self.labels:
-        #         rates = rates + "{:}: {:}, ".format(l, self.dataRate[l])
-        #         total += self.dataRate[l]
-        #         self.dataRate[l] = 0
-        #     print(rates + "Total: {:}".format(total))
-        #     self.lastStatus = time.time()
+        if time.time() - self.lastStatus > 1:
+            rates = ""
+            total = 0
+            for l in self.labels:
+                rates = rates + "{:}: {:}, ".format(l, self.dataRate[l])
+                total += self.dataRate[l]
+                self.dataRate[l] = 0
+            if total:
+                print(rates + "Total: {:}".format(total))
+            self.lastStatus = time.time()
 
     def updatePlotData(self):
         for s in self.labels:
@@ -129,10 +138,14 @@ class Plotter(object):
     def press(self, event):
         if self.receivingCommand:
             if event.key == 'enter':
-                print("Writing command through reader")
                 self.receivingCommand = False
+<<<<<<< HEAD
+                print("Sending '{:}'".format(self.command))
+                self.reader.write(self.command)
+=======
                 print("Sending {:}".format(self.command))
                 self.reader.write(self.command + "\r\n")
+>>>>>>> 4295fbaef583958b6e70a11a09ac61ec21ef5866
                 self.command = ''
             else:
                 self.command += event.key
@@ -215,7 +228,8 @@ class Plotter(object):
         # return sorted(list(zip(*possibleLabels))[0][threshold:])
 
         # Good for not too noisy data for different data rates
-        threshold = maxTries / 10
+        maxExpectedLabels = 10
+        threshold = maxTries / maxExpectedLabels
         possibleLabels = [l for l, s in seenLabels.items() if s >= threshold]
         return sorted(possibleLabels)
 
