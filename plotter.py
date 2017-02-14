@@ -137,8 +137,10 @@ class Plotter(object):
         if not self.freezePlot:
             plt.pause(0.001)
 
-        for s in tails.keys():
-            self.rings[s][self.N, :] = tails[s].copy()
+        # This check is a little awkward, but it is possible that the labels has changed since the above for loop and will thereby differ from the tails keys
+        if list(tails.keys()) == self.labels:
+            for s in tails.keys():
+                self.rings[s][self.N, :] = tails[s].copy()
 
     def reset(self):
         for label in self.labels:
