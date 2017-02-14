@@ -49,6 +49,7 @@ class Plotter(object):
 
         self.c = 0
         self.freezePlot = False
+        self.N = 0
 
         self.axs = {}
         self.lineSets = {}
@@ -83,12 +84,10 @@ class Plotter(object):
                 self.lineSets[s].append(ax.plot([], [], self.lineStyle, label=chr(ord('a')+j))[0])
             ax.set_title(s, color=(230/255,)*3)
             ax.legend(loc=2)
-            self.rings[s] = np.zeros((self.n, self.ls[s]))
-            self.xs[s] = np.zeros(self.n)
-            self.indexes[s] = 0
-            self.min_[s] = float('inf')
-            self.max_[s] = -float('inf')
-            self.dataRate[s] = 0
+
+        print(self.labels)
+        print(self.rings.keys())
+        self.reset()
 
         print("\nNumber of data points in each label:")
         print(self.ls)
@@ -110,45 +109,55 @@ class Plotter(object):
             self.lastStatus = time.time()
 
     def updatePlotData(self):
-        tails = {}
-        for s in self.labels:
-            for j in range(self.ls[s]):
-                self.lineSets[s][j].set_data(self.xs[s], self.rings[s][:, j])
-
-            # It seems very inefficient doing the limit checks like this, here, instead of doing it when we receive the data
-            change = False
-            if self.rings[s].min() < self.min_[s]:
-                self.min_[s] = self.rings[s].min()
-                change = True
-
-            if self.rings[s].max() > self.max_[s]:
-                self.max_[s] = self.rings[s].max()
-                change = True
-
-            if change:
-                delta = (self.max_[s] - self.min_[s]) * 0.1
-                self.axs[s].set_ylim(self.min_[s] - delta, self.max_[s] + delta)
-
-            self.axs[s].set_xlim(self.indexes[s] - self.n, self.indexes[s])
-
-            tails[s] = self.rings[s][self.N, :].copy()
-            self.rings[s][self.N, :] = None
-
         if not self.freezePlot:
+            tails = {}
+            for s in self.labels:
+                for j in range(self.ls[s]):
+                    self.lineSets[s][j].set_data(self.xs[s], self.rings[s][:, j])
+
+                # It seems very inefficient doing the limit checks like this, here, instead of doing it when we receive the data
+                change = False
+                if self.rings[s].min() < self.min_[s]:
+                    self.min_[s] = self.rings[s].min()
+                    change = True
+
+                if self.rings[s].max() > self.max_[s]:
+                    self.max_[s] = self.rings[s].max()
+                    change = True
+
+                if change:
+                    delta = (self.max_[s] - self.min_[s]) * 0.1
+                    self.axs[s].set_ylim(self.min_[s] - delta, self.max_[s] + delta)
+
+                self.axs[s].set_xlim(self.indexes[s] - self.n, self.indexes[s])
+
+                # Set the current head to None (Nan) to avoid drawing a line from head to tail and thus across the entire plot
+                # Store the current head in order not to loose the data
+                tails[s] = self.rings[s][self.N, :].copy()
+                self.rings[s][self.N, :] = None
+
             plt.pause(0.001)
 
-        # This check is a little awkward, but it is possible that the labels has changed since the above for loop and will thereby differ from the tails keys
-        if list(tails.keys()) == self.labels:
-            for s in tails.keys():
-                self.rings[s][self.N, :] = tails[s].copy()
+            # Set the current head back to its actual value
+            # This check is a little awkward, but it is possible that the labels changed as plt.pause was called and they will thereby differ from the tails keys
+            if list(tails.keys()) == self.labels:
+                for s in tails.keys():
+                    self.rings[s][self.N, :] = tails[s].copy()
+            else:
+                self.reset()
 
     def reset(self):
-        for label in self.labels:
-            self.rings[label] = np.zeros((self.n, self.ls[label])) + self.rings[label][self.N, :]
-            self.xs[label] = np.zeros(self.n)
-            self.indexes[label] = 0
-            self.min_[label] = float('inf')
-            self.max_[label] = -float('inf')
+        for s in self.labels:
+            if list(self.rings.keys()) == self.labels:
+                # The current head will be None/nan due to the updatePlotData method - use previous head instead
+                self.rings[s] = np.zeros((self.n, self.ls[s])) + self.rings[s][(self.N - 1) % self.n, :]
+            else:
+                self.rings[s] = np.zeros((self.n, self.ls[s]))
+            self.xs[s] = np.zeros(self.n)
+            self.indexes[s] = 0
+            self.min_[s] = float('inf')
+            self.max_[s] = -float('inf')
+            self.dataRate[s] = 0
 
     def press(self, event):
         if self.receivingCommand:
