@@ -22,18 +22,16 @@ class MissingLabelError(Exception):
 
 
 class Plotter(object):
-    def __init__(self, labels, reader, n):
+    def __init__(self, labels, reader, n, lineStyle="."):
         self.reader = reader
         self.n = n
+        self.lineStyle = lineStyle
         self.fig = plt.figure()
         self.fig.canvas.mpl_connect('key_press_event', self.press)
-        # self.setUp(labels)
         if labels:
             self.setUp(labels)
         else:
             self.labels = labels
-
-        # print("\nPress x to resize y axes. Press q to quit.")
 
         self.lastPlotUpdate = time.time()
         self.lastStatus = time.time()
@@ -82,7 +80,7 @@ class Plotter(object):
                     self.ls[s] = length
                     break
             for j in range(self.ls[s]):
-                self.lineSets[s].append(ax.plot([], [], '.', label=chr(ord('a')+j))[0])
+                self.lineSets[s].append(ax.plot([], [], self.lineStyle, label=chr(ord('a')+j))[0])
             ax.set_title(s, color=(230/255,)*3)
             ax.legend(loc=2)
             self.rings[s] = np.zeros((self.n, self.ls[s]))
@@ -97,14 +95,8 @@ class Plotter(object):
 
     def update(self):
         self.getData()
-        # if self.c == 100:
-        #     print('resetting')
-        #     self.reset()
-        # self.c += 1
         if time.time() - self.lastPlotUpdate > 0.03:
-            if not self.freezePlot:
-                self.updatePlotData()
-            plt.pause(0.001)
+            self.updatePlotData()
             self.lastPlotUpdate = time.time()
         if time.time() - self.lastStatus > 1:
             rates = ""
@@ -113,23 +105,40 @@ class Plotter(object):
                 rates = rates + "{:}: {:}, ".format(l, self.dataRate[l])
                 total += self.dataRate[l]
                 self.dataRate[l] = 0
-            if total:
-                print(rates + "Total: {:}".format(total))
+            # if total:
+            #     print(rates + "Total: {:}".format(total))
             self.lastStatus = time.time()
 
     def updatePlotData(self):
+        tails = {}
         for s in self.labels:
             for j in range(self.ls[s]):
                 self.lineSets[s][j].set_data(self.xs[s], self.rings[s][:, j])
 
+            # It seems very inefficient doing the limit checks like this, here, instead of doing it when we receive the data
+            change = False
             if self.rings[s].min() < self.min_[s]:
                 self.min_[s] = self.rings[s].min()
-                self.axs[s].set_ylim(self.min_[s], self.max_[s])
+                change = True
 
             if self.rings[s].max() > self.max_[s]:
                 self.max_[s] = self.rings[s].max()
-                self.axs[s].set_ylim(self.min_[s], self.max_[s])
+                change = True
+
+            if change:
+                delta = (self.max_[s] - self.min_[s]) * 0.1
+                self.axs[s].set_ylim(self.min_[s] - delta, self.max_[s] + delta)
+
             self.axs[s].set_xlim(self.indexes[s] - self.n, self.indexes[s])
+
+            tails[s] = self.rings[s][self.N, :].copy()
+            self.rings[s][self.N, :] = None
+
+        if not self.freezePlot:
+            plt.pause(0.001)
+
+        for s in tails.keys():
+            self.rings[s][self.N, :] = tails[s].copy()
 
     def reset(self):
         for label in self.labels:

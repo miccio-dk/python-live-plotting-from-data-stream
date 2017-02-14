@@ -32,6 +32,6 @@ if not allGood:
 # Number of data "packages" to plot at the same time
 n = 1000
 
-plotHandler = Plotter(labels, reader, n)
+plotHandler = Plotter(labels, reader, n, lineStyle='-')
 while True:
     plotHandler.update()
