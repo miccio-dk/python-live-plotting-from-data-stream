@@ -32,6 +32,7 @@ if not allGood:
 # Number of data "packages" to plot at the same time
 n = 1000
 
+# plotParams = {"ls": 'solid'}
 plotParams = {}
 plotHandler = Plotter(labels, reader, n, plotParams)
 while True:
