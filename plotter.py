@@ -63,7 +63,10 @@ class Plotter(object):
             self.rings[s] = Ring(packageLength, self.ringLength)
             self.rings[s].lineSets = []
             for j in range(packageLength):
-                self.rings[s].lineSets.append(ax.plot([], [], '.', label=chr(ord('a')+j), **self.plotParams)[0])
+                if "ls" in self.plotParams or "linestyle" in self.plotParams:
+                    self.rings[s].lineSets.append(ax.plot([], [], label=chr(ord('a')+j), **self.plotParams)[0])
+                else:
+                    self.rings[s].lineSets.append(ax.plot([], [], '.', label=chr(ord('a')+j), **self.plotParams)[0])
             ax.set_title(s, color=(textColor,)*3)
             ax.legend(loc=2)
             ax.xaxis.label.set_color((textColor,)*3)
@@ -159,7 +162,6 @@ def isCommand(s):
 
 
 def discoverLabels(reader):
-    # There must be a smarter/prettier way - but it does seem to be pretty robust
     maxTries = 100
     print("Discovering labels by looking at the first {} packages...".format(maxTries))
     seenLabels = collections.defaultdict(int)
@@ -168,9 +170,6 @@ def discoverLabels(reader):
         if s:
           if isNumerical:
             seenLabels[s] += 1
-        else:
-            # time.sleep(0.05)
-            pass
 
     # Good for noisy data for equal data rates:
     # possibleLabels = [('dummy', 1)] + sorted(seenLabels.items(), key=lambda x: x[1])
