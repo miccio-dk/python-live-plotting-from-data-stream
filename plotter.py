@@ -6,6 +6,7 @@ import collections
 import numpy as np
 import matplotlib
 from matplotlib import pyplot as plt
+from ring import Ring
 
 # Set line colors to match those of matplotlib 2.0
 if int(matplotlib.__version__.split('.')[0]) < 2:
@@ -22,9 +23,9 @@ class MissingLabelError(Exception):
 
 
 class Plotter(object):
-    def __init__(self, labels, reader, n, plotParams):
+    def __init__(self, labels, reader, ringLength, plotParams={}):
         self.reader = reader
-        self.n = n
+        self.ringLength = ringLength
         self.plotParams = plotParams
         self.fig = plt.figure()
         self.fig.canvas.mpl_connect('key_press_event', self.press)
@@ -34,128 +35,68 @@ class Plotter(object):
             self.labels = labels
 
         self.lastPlotUpdate = time.time()
-        self.lastStatus = time.time()
         self.freezePlot = False
         self.receivingCommand = False
         self.command = ''
+        self.rings = {}
 
     def setUp(self, labels):
         if not labels:
             print("No labels specified - Trying to find them automatically..")
-            self.labels = self.discoverLabels()
+            self.labels = discoverLabels(self.reader)
             print("Found labels: {:}".format(', '.join(self.labels)))
         else:
             self.labels = labels
 
-        self.c = 0
         self.freezePlot = False
-        self.N = 0
-
-        self.axs = {}
-        self.lineSets = {}
         self.rings = {}
-        self.xs = {}
-        self.indexes = {}
-        self.min_ = {}
-        self.max_ = {}
-        self.ls = {}
-        self.dataRate = {}
+
+        textColor = 230/255
+        windowColor = 11/255
+        plotBackgroundColor = 22/255
 
         self.fig.canvas.mpl_connect('key_press_event', self.press)
-        maxTries = 10
-        self.fig.patch.set_facecolor((11/255, 11/255, 11/255))
+        self.fig.patch.set_facecolor((windowColor,)*3)
         for i, s in enumerate(self.labels):
-            ax = self.fig.add_subplot(len(self.labels), 1, i + 1, axisbg=(22/255,)*3)
-            ax.set_xlim(0, self.n)
-            ax.set_ylim(-2, 2)
-            ax.xaxis.label.set_color((230/255,)*3)
-            # ax.yaxis.label.set_color((230/255,)*3)
-            ax.tick_params(axis='x', colors=(230/255,)*3)
-            ax.tick_params(axis='y', colors=(230/255,)*3)
-            self.axs[s] = ax
-            self.lineSets[s] = []
-            for i in range(maxTries):
-                length = self.getLinesPerType(s, self.reader)
-                if length is not None:
-                    self.ls[s] = length
-                    break
-            for j in range(self.ls[s]):
-                self.lineSets[s].append(ax.plot([], [], '.', label=chr(ord('a')+j), **self.plotParams)[0])
-            ax.set_title(s, color=(230/255,)*3)
+            ax = self.fig.add_subplot(len(self.labels), 1, i + 1, axisbg=(plotBackgroundColor,)*3)
+            packageLength = getLinesPerType(s, self.reader)
+            self.rings[s] = Ring(packageLength, self.ringLength)
+            self.rings[s].lineSets = []
+            for j in range(packageLength):
+                self.rings[s].lineSets.append(ax.plot([], [], '.', label=chr(ord('a')+j), **self.plotParams)[0])
+            ax.set_title(s, color=(textColor,)*3)
             ax.legend(loc=2)
-            self.axs[s] = ax
+            ax.xaxis.label.set_color((textColor,)*3)
+            # ax.yaxis.label.set_color((textColor,)*3)
+            ax.tick_params(axis='x', colors=(textColor,)*3)
+            ax.tick_params(axis='y', colors=(textColor,)*3)
+            self.rings[s].ax = ax
 
-        self.reset()
-
-        print("\nNumber of data points in each label:")
-        print(self.ls)
+        print("\nNumber of data points for each label:")
+        for s in self.labels:
+            print("{:}: {:} ".format(s, self.rings[s].nY))
 
     def update(self):
         self.getData()
         if time.time() - self.lastPlotUpdate > 0.03:
             self.updatePlotData()
             self.lastPlotUpdate = time.time()
-        if time.time() - self.lastStatus > 1:
-            rates = ""
-            total = 0
-            for l in self.labels:
-                rates = rates + "{:}: {:}, ".format(l, self.dataRate[l])
-                total += self.dataRate[l]
-                self.dataRate[l] = 0
-            # if total:
-            #     print(rates + "Total: {:}".format(total))
-            self.lastStatus = time.time()
 
     def updatePlotData(self):
         if not self.freezePlot:
-            tails = {}
-            for s in self.labels:
-                for j in range(self.ls[s]):
-                    self.lineSets[s][j].set_data(self.xs[s], self.rings[s][:, j])
+            for ring in self.rings.values():
+                for j in range(ring.nY):
+                    ring.lineSets[j].set_data(ring.xs, ring.yData[j, :])
 
-                # It seems very inefficient doing the limit checks like this, here, instead of doing it when we receive the data
-                change = False
-                if self.rings[s].min() < self.min_[s]:
-                    self.min_[s] = self.rings[s].min()
-                    change = True
-
-                if self.rings[s].max() > self.max_[s]:
-                    self.max_[s] = self.rings[s].max()
-                    change = True
-
-                if change:
-                    delta = (self.max_[s] - self.min_[s]) * 0.1
-                    self.axs[s].set_ylim(self.min_[s] - delta, self.max_[s] + delta)
-
-                self.axs[s].set_xlim(self.indexes[s] - self.n, self.indexes[s])
-
-                # Set the current head to None (Nan) to avoid drawing a line from head to tail and thus across the entire plot
-                # Store the current head in order not to loose the data
-                tails[s] = self.rings[s][self.N, :].copy()
-                self.rings[s][self.N, :] = None
+                delta = (ring.maxY - ring.minY) * 0.1
+                ring.ax.set_ylim(ring.minY - delta, ring.maxY + delta)
+                ring.ax.set_xlim(ring.xs[ring.head] - ring.length, ring.xs[ring.head])
+                ring.looseTail()
 
             plt.pause(0.001)
 
-            # Set the current head back to its actual value
-            # This check is a little awkward, but it is possible that the labels changed as plt.pause was called and they will thereby differ from the tails keys
-            if list(tails.keys()) == self.labels:
-                for s in tails.keys():
-                    self.rings[s][self.N, :] = tails[s].copy()
-            else:
-                self.reset()
-
-    def reset(self):
-        for s in self.labels:
-            if list(self.rings.keys()) == self.labels:
-                # The current head will be None/nan due to the updatePlotData method - use previous head instead
-                self.rings[s] = np.zeros((self.n, self.ls[s])) + self.rings[s][(self.N - 1) % self.n, :]
-            else:
-                self.rings[s] = np.zeros((self.n, self.ls[s]))
-            self.xs[s] = np.zeros(self.n)
-            self.indexes[s] = 0
-            self.min_[s] = float('inf')
-            self.max_[s] = -float('inf')
-            self.dataRate[s] = 0
+            for ring in self.rings.values():
+                ring.fixTail()
 
     def press(self, event):
         if self.receivingCommand:
@@ -169,7 +110,8 @@ class Plotter(object):
             return
 
         if event.key == 'x':
-            self.reset()
+            for ring in self.rings.values():
+                ring.reset()
 
         elif event.key == 'p':
             self.freezePlot = not self.freezePlot
@@ -192,12 +134,8 @@ class Plotter(object):
 
     def getData(self):
         s, data, isNumerical = self.reader()
-        if isNumerical and s in self.labels and len(data) == self.ls[s]:
-            self.N = self.indexes[s] % self.n
-            self.rings[s][self.N, :] = data
-            self.xs[s][self.N] = self.indexes[s]
-            self.indexes[s] += 1
-            self.dataRate[s] += 1
+        if isNumerical and s in self.labels and len(data) == self.rings[s].nY:
+            self.rings[s].update(data)
         elif isCommand(s):
             event = FakeKeyEvent(data[0].strip())
             print("Received command in data stream: {}".format(event.key))
@@ -208,47 +146,6 @@ class Plotter(object):
                     print(s)
                 else:
                     print(s, *data)
-        return s, data
-
-    def getLinesPerType(self, label, reader):
-        maxTries = 100
-        seenLabels = collections.defaultdict(int)
-        for _ in range(maxTries):
-            s, data, isNumerical = self.reader()
-            if isNumerical:
-                seenLabels[s] += 1
-                if s == label and 0 < len(data) <= 15:
-                    return len(data)
-        pretty = '\n'.join([k + ': ' + str(v) for k, v in seenLabels.items()])
-        raise MissingLabelError("Label: '{:}' not found after receiving {:} data packages\nReceived labels:\n{:}".format(label, maxTries, pretty))
-
-    def discoverLabels(self):
-        # There must be a smarter/prettier way - but it does seem to be pretty robust
-        maxTries = 100
-        print("Discovering labels by looking at the first {} packages...".format(maxTries))
-        seenLabels = collections.defaultdict(int)
-        for _ in range(maxTries):
-            s, data, isNumerical = self.reader()
-            if s:
-              if isNumerical:
-                seenLabels[s] += 1
-            else:
-                # time.sleep(0.05)
-                pass
-
-        # Good for noisy data for equal data rates:
-        # possibleLabels = [('dummy', 1)] + sorted(seenLabels.items(), key=lambda x: x[1])
-        # diffs = []
-        # for i in range(len(possibleLabels)-1):
-        #     diffs.append(possibleLabels[i+1][1] - possibleLabels[i][1])
-        # threshold = np.argmax(diffs) + 1
-        # return sorted(list(zip(*possibleLabels))[0][threshold:])
-
-        # Good for not too noisy data for different data rates
-        maxExpectedLabels = 10
-        threshold = maxTries / maxExpectedLabels
-        possibleLabels = [l for l, s in seenLabels.items() if s >= threshold]
-        return sorted(possibleLabels)
 
 
 class FakeKeyEvent(object):
@@ -259,3 +156,45 @@ class FakeKeyEvent(object):
 def isCommand(s):
     if s == 'COMMAND':
         return True
+
+
+def discoverLabels(reader):
+    # There must be a smarter/prettier way - but it does seem to be pretty robust
+    maxTries = 100
+    print("Discovering labels by looking at the first {} packages...".format(maxTries))
+    seenLabels = collections.defaultdict(int)
+    for _ in range(maxTries):
+        s, data, isNumerical = reader()
+        if s:
+          if isNumerical:
+            seenLabels[s] += 1
+        else:
+            # time.sleep(0.05)
+            pass
+
+    # Good for noisy data for equal data rates:
+    # possibleLabels = [('dummy', 1)] + sorted(seenLabels.items(), key=lambda x: x[1])
+    # diffs = []
+    # for i in range(len(possibleLabels)-1):
+    #     diffs.append(possibleLabels[i+1][1] - possibleLabels[i][1])
+    # threshold = np.argmax(diffs) + 1
+    # return sorted(list(zip(*possibleLabels))[0][threshold:])
+
+    # Good for not too noisy data for different data rates
+    maxExpectedLabels = 10
+    threshold = maxTries / maxExpectedLabels
+    possibleLabels = [l for l, s in seenLabels.items() if s >= threshold]
+    return sorted(possibleLabels)
+
+
+def getLinesPerType(label, reader):
+    maxTries = 100
+    seenLabels = collections.defaultdict(int)
+    for _ in range(maxTries):
+        s, data, isNumerical = reader()
+        if isNumerical:
+            seenLabels[s] += 1
+            if s == label and 0 < len(data) <= 15:
+                return len(data)
+    pretty = '\n'.join([k + ': ' + str(v) for k, v in seenLabels.items()])
+    raise MissingLabelError("Label: '{:}' not found after receiving {:} data packages\nReceived labels:\n{:}".format(label, maxTries, pretty))
