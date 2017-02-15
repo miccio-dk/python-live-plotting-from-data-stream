@@ -124,7 +124,7 @@ class Plotter(object):
             self.setUp([])
 
         elif event.key == 'g':
-            self.fig.savefig('{:.0f}.png'.format(time.time()), bbox_inches='tight')
+            self.fig.savefig('{:.0f}.png'.format(time.time()), bbox_inches='tight', facecolor=self.fig.get_facecolor(), edgecolor='none')
 
         elif event.key == 'enter':
             print("listening for message until next enter key press:")
