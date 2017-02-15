@@ -10,7 +10,7 @@ if len(sys.argv) > 1:
 
     elif sys.argv[1] == 'socket':
         from socket_reader import Reader
-        reader = Reader('10.0.2.53', port=50007)
+        reader = Reader('10.0.102.2', port=50007)
 
     elif sys.argv[1] == 'pipe':
         from pipe_reader import Reader
@@ -32,7 +32,7 @@ if not allGood:
 # Number of data "packages" to plot at the same time
 n = 1000
 
-plotParams = {"ls": 'dashed'}
+plotParams = {}
 plotHandler = Plotter(labels, reader, n, plotParams)
 while True:
     plotHandler.update()

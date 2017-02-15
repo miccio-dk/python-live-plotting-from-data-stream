@@ -80,7 +80,7 @@ class Plotter(object):
                     self.ls[s] = length
                     break
             for j in range(self.ls[s]):
-                self.lineSets[s].append(ax.plot([], [], label=chr(ord('a')+j), **self.plotParams)[0])
+                self.lineSets[s].append(ax.plot([], [], '.', label=chr(ord('a')+j), **self.plotParams)[0])
             ax.set_title(s, color=(230/255,)*3)
             ax.legend(loc=2)
             self.axs[s] = ax
