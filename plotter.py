@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib
 from matplotlib import pyplot as plt
 
-# Configure the colors in matplotlib
+# Set line colors to match those of matplotlib 2.0
 if int(matplotlib.__version__.split('.')[0]) < 2:
     matplotlib.rcParams["axes.color_cycle"] = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]
 
@@ -69,7 +69,7 @@ class Plotter(object):
             ax.set_xlim(0, self.n)
             ax.set_ylim(-2, 2)
             ax.xaxis.label.set_color((230/255,)*3)
-            ax.xaxis.label.set_color((230/255,)*3)
+            # ax.yaxis.label.set_color((230/255,)*3)
             ax.tick_params(axis='x', colors=(230/255,)*3)
             ax.tick_params(axis='y', colors=(230/255,)*3)
             self.axs[s] = ax
