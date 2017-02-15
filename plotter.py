@@ -22,10 +22,10 @@ class MissingLabelError(Exception):
 
 
 class Plotter(object):
-    def __init__(self, labels, reader, n, lineStyle="."):
+    def __init__(self, labels, reader, n, plotParams):
         self.reader = reader
         self.n = n
-        self.lineStyle = lineStyle
+        self.plotParams = plotParams
         self.fig = plt.figure()
         self.fig.canvas.mpl_connect('key_press_event', self.press)
         if labels:
@@ -66,7 +66,6 @@ class Plotter(object):
         self.fig.patch.set_facecolor((11/255, 11/255, 11/255))
         for i, s in enumerate(self.labels):
             ax = self.fig.add_subplot(len(self.labels), 1, i + 1, axisbg=(22/255,)*3)
-            self.axs[s] = ax
             ax.set_xlim(0, self.n)
             ax.set_ylim(-2, 2)
             ax.xaxis.label.set_color((230/255,)*3)
@@ -81,12 +80,11 @@ class Plotter(object):
                     self.ls[s] = length
                     break
             for j in range(self.ls[s]):
-                self.lineSets[s].append(ax.plot([], [], self.lineStyle, label=chr(ord('a')+j))[0])
+                self.lineSets[s].append(ax.plot([], [], label=chr(ord('a')+j), **self.plotParams)[0])
             ax.set_title(s, color=(230/255,)*3)
             ax.legend(loc=2)
+            self.axs[s] = ax
 
-        print(self.labels)
-        print(self.rings.keys())
         self.reset()
 
         print("\nNumber of data points in each label:")
