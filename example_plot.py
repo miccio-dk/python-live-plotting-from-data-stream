@@ -6,7 +6,7 @@ allGood = True
 if len(sys.argv) > 1:
     if sys.argv[1] == 'serial':
         from serial_reader import Reader
-        reader = Reader(port='/dev/ttyUSB0', baudrate=115200)
+        reader = Reader(port='/dev/ttyUSB0', baudrate=57600)
 
     elif sys.argv[1] == 'socket':
         from socket_reader import Reader

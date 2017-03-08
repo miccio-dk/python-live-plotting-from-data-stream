@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib
 from matplotlib import pyplot as plt
 from ring import Ring
+import pprint
 
 # Set line colors to match those of matplotlib 2.0
 if int(matplotlib.__version__.split('.')[0]) < 2:
@@ -55,7 +56,6 @@ class Plotter(object):
         windowColor = 11/255
         plotBackgroundColor = 22/255
 
-        self.fig.canvas.mpl_connect('key_press_event', self.press)
         self.fig.patch.set_facecolor((windowColor,)*3)
         for i, s in enumerate(self.labels):
             ax = self.fig.add_subplot(len(self.labels), 1, i + 1, axisbg=(plotBackgroundColor,)*3)
@@ -96,12 +96,13 @@ class Plotter(object):
                 ring.ax.set_xlim(ring.xs[ring.head] - ring.length, ring.xs[ring.head])
                 ring.looseTail()
 
-            plt.pause(0.001)
 
             for ring in self.rings.values():
                 ring.fixTail()
+        plt.pause(0.001)
 
     def press(self, event):
+        print(event.key)
         if self.receivingCommand:
             if event.key == 'enter':
                 self.receivingCommand = False
