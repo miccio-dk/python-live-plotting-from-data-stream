@@ -102,7 +102,6 @@ class Plotter(object):
         plt.pause(0.001)
 
     def press(self, event):
-        print(event.key)
         if self.receivingCommand:
             if event.key == 'enter':
                 self.receivingCommand = False
