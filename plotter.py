@@ -91,8 +91,8 @@ class Plotter(object):
                 for j in range(ring.nY):
                     ring.lineSets[j].set_data(ring.xs, ring.yData[j, :])
 
-                delta = (ring.maxY - ring.minY) * 0.1
-                ring.ax.set_ylim(ring.minY - delta, ring.maxY + delta)
+                deltaY = (ring.maxY - ring.minY) * 0.1
+                ring.ax.set_ylim(ring.minY - deltaY, ring.maxY + deltaY)
                 ring.ax.set_xlim(ring.xs[ring.head] - ring.length, ring.xs[ring.head])
                 ring.looseTail()
 
@@ -162,38 +162,31 @@ def isCommand(s):
 
 
 def discoverLabels(reader):
-    maxTries = 100
-    print("Discovering labels by looking at the first {} packages...".format(maxTries))
+    discoverDuration = 1
+    print("Discovering labels by looking at packages for {:} second{:}".format(discoverDuration, 's' if discoverDuration != 1 else ''))
     seenLabels = collections.defaultdict(int)
-    for _ in range(maxTries):
+    timeAtStart = time.time()
+    while time.time() - timeAtStart < discoverDuration:
         s, data, isNumerical = reader()
         if s:
-          if isNumerical:
-            seenLabels[s] += 1
+            if isNumerical:
+              seenLabels[s] += 1
 
-    # Good for noisy data for equal data rates:
-    # possibleLabels = [('dummy', 1)] + sorted(seenLabels.items(), key=lambda x: x[1])
-    # diffs = []
-    # for i in range(len(possibleLabels)-1):
-    #     diffs.append(possibleLabels[i+1][1] - possibleLabels[i][1])
-    # threshold = np.argmax(diffs) + 1
-    # return sorted(list(zip(*possibleLabels))[0][threshold:])
-
-    # Good for not too noisy data for different data rates
-    maxExpectedLabels = 10
-    threshold = maxTries / maxExpectedLabels
-    possibleLabels = [l for l, s in seenLabels.items() if s >= threshold]
+    # Expecting any label seen at least twice to be actual label
+    minThreshold = 2
+    possibleLabels = [label for label, coutn in seenLabels.items() if coutn >= minThreshold]
     return sorted(possibleLabels)
 
 
 def getLinesPerType(label, reader):
-    maxTries = 100
+    discoverDuration = 1
     seenLabels = collections.defaultdict(int)
-    for _ in range(maxTries):
+    timeAtStart = time.time()
+    while time.time() - timeAtStart < discoverDuration:
         s, data, isNumerical = reader()
         if isNumerical:
             seenLabels[s] += 1
             if s == label and 0 < len(data) <= 15:
                 return len(data)
     pretty = '\n'.join([k + ': ' + str(v) for k, v in seenLabels.items()])
-    raise MissingLabelError("Label: '{:}' not found after receiving {:} data packages\nReceived labels:\n{:}".format(label, maxTries, pretty))
+    raise MissingLabelError("Label: '{:}' not found after looking for it for {:} second{:}\nReceived labels:\n{:}".format(label, discoverDuration, 's' if discoverDuration != 1 else '', pretty))
