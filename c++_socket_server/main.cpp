@@ -7,7 +7,7 @@
 *
 * Written by Allan Hein <allan@d0st3n.dk>
 * Created 2016-03-10
-* 
+*
 * Updated 2016-29-12 - By Allan Hein
 *  - Changed serial reading to be blocking instead of interval, this spare a bit of cpu power
 * -----------------------------------------------------------------------
@@ -20,6 +20,7 @@
 #include <mutex>
 #include <algorithm>
 #include <ctime>
+#include <vector>
 
 // C libs
 #include <stdio.h>
@@ -158,7 +159,7 @@ void *socket_listner(void *attr)
     {
       // Check if the client have something to say!
       recv_res = recv( (*client)->socket, buff, sizeof(buff), MSG_DONTWAIT);
-      
+
       // Still a connection but no new data. Let's continue the loop!
       if(recv_res < 0)
       {
@@ -228,24 +229,24 @@ void *serial_listner(void *attr)
     {
       if(c == '\n' && pc == '\n')
       {
-          pc = c;
-          continue;
+        continue;
       }
       pc = c;
 
       // Loop over the clients and send the char to them!
       clientsMutex.lock();
-      for(auto client = clients.begin() ; client != clients.end();)
+      for(auto& client : clients)
+      // for(auto client = clients.begin() ; client != clients.end(); ++client)
       {
-        send((*client)->socket, &c, 1, MSG_NOSIGNAL);
-        client++;
+        // send((*client)->socket, &c, 1, MSG_NOSIGNAL);
+        send(client->socket, &c, 1, MSG_NOSIGNAL);
       }
       clientsMutex.unlock();
     }
-    //else
-    //{
-    //  usleep(1000000/LOOP_FREQ_SERIAL);
-    //}
+    else
+    {
+     usleep(100);
+    }
 
 #ifdef DEBUG_MODE
     ++count;
