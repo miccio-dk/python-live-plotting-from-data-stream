@@ -1,8 +1,11 @@
 import sys
 import time
 import numpy as np
+import matplotlib
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+
+matplotlib.rcParams['toolbar'] = 'None'
 
 
 def load_src(name, fpath):
@@ -30,9 +33,11 @@ class QuadPlotter(object):
     self.ax.set_ylabel("y")
     self.ax.set_zlabel("z")
 
-    self.ax.set_xlim3d(-1, 1)
-    self.ax.set_ylim3d(-1, 1)
-    self.ax.set_zlim3d(-1, 1)
+    self.ax.set_xlim3d(-0.2, 0.2)
+    self.ax.set_ylim3d(-0.2, 0.2)
+    self.ax.set_zlim3d(-0.2, 0.2)
+
+    self.ax.set_axis_off()
 
     self.latestPos = np.zeros(3)
     self.latestQua = None
@@ -48,7 +53,7 @@ class QuadPlotter(object):
   def drawQuad(self, q, pos):
     lineX = q.rotateVectors(np.array([[-0.3,    0, 0], [0.3,   0,   0]]).T)
     lineY = q.rotateVectors(np.array([[   0, -0.3, 0], [  0, 0.3,   0]]).T)
-    lineZ = q.rotateVectors(np.array([[   0,    0, 0], [  0,   0, 0.3]]).T)
+    lineZ = q.rotateVectors(np.array([[   0,    0, 0], [  0,   0, 0.15]]).T)
 
     self.lines[0].set_xdata(lineX[0, :] + pos[0])
     self.lines[0].set_ydata(lineX[1, :] + pos[1])
@@ -59,8 +64,6 @@ class QuadPlotter(object):
     self.lines[2].set_xdata(lineZ[0, :] + pos[0])
     self.lines[2].set_ydata(lineZ[1, :] + pos[1])
     self.lines[2].set_3d_properties(lineZ[2, :] + pos[2])
-    plt.pause(0.001)
-
     plt.pause(0.001)
 
   def update(self):
