@@ -7,7 +7,6 @@ import numpy as np
 import matplotlib
 from matplotlib import pyplot as plt
 from ring import Ring
-import pprint
 
 # Set line colors to match those of matplotlib 2.0
 if int(matplotlib.__version__.split('.')[0]) < 2:
@@ -30,16 +29,12 @@ class Plotter(object):
         self.plotParams = plotParams
         self.fig = plt.figure()
         self.fig.canvas.mpl_connect('key_press_event', self.press)
-        if labels:
-            self.setUp(labels)
-        else:
-            self.labels = labels
+        self.setUp(labels)
 
         self.lastPlotUpdate = time.time()
         self.freezePlot = False
         self.receivingCommand = False
         self.command = ''
-        self.rings = {}
 
     def setUp(self, labels):
         if not labels:
@@ -92,7 +87,8 @@ class Plotter(object):
                     ring.lineSets[j].set_data(ring.xs, ring.yData[j, :])
 
                 delta = (ring.maxY - ring.minY) * 0.1
-                ring.ax.set_ylim(ring.minY - delta, ring.maxY + delta)
+                # Last value, 1e-4, is added to suppress warning from matplotlib after reset
+                ring.ax.set_ylim(ring.minY - delta, ring.maxY + delta + 1e-4)
                 ring.ax.set_xlim(ring.xs[ring.head] - ring.length, ring.xs[ring.head])
                 ring.looseTail()
 
@@ -102,15 +98,15 @@ class Plotter(object):
         plt.pause(0.001)
 
     def press(self, event):
-        print(event.key)
         if self.receivingCommand:
             if event.key == 'enter':
                 self.receivingCommand = False
-                print("Sending '{:}'".format(self.command))
+                print("\nSending '{:}'".format(self.command))
                 self.reader.write(self.command + "\r\n")
                 self.command = ''
             else:
                 self.command += event.key
+                sys.stdout.write("\r{:}".format(self.command))
             return
 
         if event.key == 'x':
@@ -163,26 +159,18 @@ def isCommand(s):
 
 
 def discoverLabels(reader):
-    maxTries = 100
-    print("Discovering labels by looking at the first {} packages...".format(maxTries))
+    timeLimit = 1
+    # maxTries = 100
+    print("Discovering labels by looking at packages for {:} second{:}".format(timeLimit, "s" if timeLimit > 1 else ""))
     seenLabels = collections.defaultdict(int)
-    for _ in range(maxTries):
+    timeAtStart = time.time()
+    while time.time() - timeAtStart < 1:
         s, data, isNumerical = reader()
         if s:
           if isNumerical:
             seenLabels[s] += 1
 
-    # Good for noisy data for equal data rates:
-    # possibleLabels = [('dummy', 1)] + sorted(seenLabels.items(), key=lambda x: x[1])
-    # diffs = []
-    # for i in range(len(possibleLabels)-1):
-    #     diffs.append(possibleLabels[i+1][1] - possibleLabels[i][1])
-    # threshold = np.argmax(diffs) + 1
-    # return sorted(list(zip(*possibleLabels))[0][threshold:])
-
-    # Good for not too noisy data for different data rates
-    maxExpectedLabels = 10
-    threshold = maxTries / maxExpectedLabels
+    threshold = 2
     possibleLabels = [l for l, s in seenLabels.items() if s >= threshold]
     return sorted(possibleLabels)
 
