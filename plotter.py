@@ -87,7 +87,7 @@ class Plotter(object):
                     ring.lineSets[j].set_data(ring.xs, ring.yData[j, :])
 
                 delta = (ring.maxY - ring.minY) * 0.1
-                # Last value, 1e-4, is added to suppress warning from matplotlib after reset
+                # Last value, 1e-4, is added to suppress warning about collapsed axis from matplotlib after reset
                 ring.ax.set_ylim(ring.minY - delta, ring.maxY + delta + 1e-4)
                 ring.ax.set_xlim(ring.xs[ring.head] - ring.length, ring.xs[ring.head])
                 ring.looseTail()
