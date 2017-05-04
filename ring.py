@@ -19,6 +19,7 @@ class Ring(object):
 
   def reset(self):
     self.yData = np.zeros((self.nY, self.length))
+    # Make sure y-axis limits will be set correctly
     # This is a little dirty but it does what it is supposed to in a very simple way.
     # Alternatively all columns in yData could be set equal to the first data point received after a reset
     self.yData[:] = None
