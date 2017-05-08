@@ -23,7 +23,6 @@ socket_parser.add_argument("baudrate", help="Device baudrate")
 socket_parser = subparsers.add_parser('pipe', parents=[parent_parser], help="Use pipe connection for acquiring data for the plot")
 
 args = parser.parse_args()
-print(args)
 
 def startSocketPlotter(args):
   import socket_reader
