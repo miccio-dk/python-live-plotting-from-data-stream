@@ -24,22 +24,23 @@ socket_parser = subparsers.add_parser('pipe', parents=[parent_parser], help="Use
 
 args = parser.parse_args()
 
+
 def startSocketPlotter(args):
   import socket_reader
   reader = socket_reader.Reader(host=args.host, port=args.port)
-  return Plotter(reader=reader, ringLength=args.n_points, labels=[])
+  return Plotter(reader=reader, ringLength=args.n_points, labels=args.labels)
 
 
 def startSerialPlotter(args):
   import serial_reader
   reader = serial_reader.Reader(port=args.port, baudrate=args.baudrate)
-  return Plotter(reader=reader, ringLength=args.n_points, labels=[])
+  return Plotter(reader=reader, ringLength=args.n_points, labels=args.labels)
 
 
 def startPipePlotter(args):
   import pipe_reader
   reader = pipe_reader.Reader()
-  return Plotter(reader=reader, ringLength=args.n_points, labels=[])
+  return Plotter(reader=reader, ringLength=args.n_points, labels=args.labels)
 
 
 # Start plotter with data over socket connection
