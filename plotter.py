@@ -8,6 +8,9 @@ parent_parser.add_argument("-l", "--labels", type=str, default=[], help="List of
 
 parser = argparse.ArgumentParser(add_help=False)
 subparsers = parser.add_subparsers(dest="subparser")
+# Workaround for sub_pserser bug
+# http://stackoverflow.com/q/23349349
+subparsers.required = True
 
 socket_parser = subparsers.add_parser('socket', parents=[parent_parser], help="Use socket connection for acquiring data for the plot")
 socket_parser.add_argument("host", type=str, help="Address of remote")
@@ -21,7 +24,6 @@ socket_parser = subparsers.add_parser('pipe', parents=[parent_parser], help="Use
 
 args = parser.parse_args()
 print(args)
-
 
 def startSocketPlotter(args):
   import socket_reader
