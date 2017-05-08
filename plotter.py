@@ -2,47 +2,56 @@
 import argparse
 from plot_lib import Plotter
 
-parser = argparse.ArgumentParser(description="Tool for continuously plotting data",
-                                 argument_default=argparse.SUPPRESS)
+parent_parser = argparse.ArgumentParser(description="Tool for continuously plotting data", add_help=False)
+parent_parser.add_argument("-n", "--n_points", type=int, default=1000, help="Number of packages of each type to plot (x-axis width)")
+parent_parser.add_argument("-l", "--labels", type=str, default=[], help="List of package labels to plot")
 
+parser = argparse.ArgumentParser(add_help=False)
+subparsers = parser.add_subparsers(dest="subparser")
 
-parser.add_argument("input_type", choices=("socket", "serial", "pipe"), help="method for passing data to the plotter (socket, serial, pipe)")
-parser.add_argument("--ring_length", type=int, default=1000, help="Number of data points to plot for each package type (x axis width)")
+socket_parser = subparsers.add_parser('socket', parents=[parent_parser], help="Use socket connection for acquiring data for the plot")
+socket_parser.add_argument("host", type=str, help="Address of remote")
+socket_parser.add_argument("port", type=int, help="Port on remote")
 
-parser.add_argument("--serial_port", type=str, help="path to serial device")
-parser.add_argument("--baudrate", type=int, help="baudrate for serial port")
+socket_parser = subparsers.add_parser('serial', parents=[parent_parser], help="Use serial connection for acquiring data for the plot")
+socket_parser.add_argument("serial_port", help="Path/to/device")
+socket_parser.add_argument("baudrate", help="Device baudrate")
 
-parser.add_argument("--remote", type=str, help="address of remote socket")
-parser.add_argument("--port", type=int, help="remote sockets port")
-
-parser.add_argument("--labels", nargs="*", default=list, help="pre determined labels to plot")
+socket_parser = subparsers.add_parser('pipe', parents=[parent_parser], help="Use pipe connection for acquiring data for the plot")
 
 args = parser.parse_args()
 print(args)
 
-# Start plotter with data over socket connection
-if args.input_type == "socket":
-  if not hasattr(args, "remote") or not hasattr(args, "port"):
-    parser.error("input_type=socket requires --remote and --port")
-    exit(1)
-  import socket_reader
-  reader = socket_reader.Reader(host=args.remote, port=args.port)
-  plotter = Plotter(reader=reader, ringLength=args.ring_length, labels=[])
 
-# Start plotter with data over serial connection
-elif args.input_type == "serial":
-  if not hasattr(args, "baudrate") or not hasattr(args, "port"):
-    parser.error("input_type=serial requires --baudrate and --port")
-    exit(1)
+def startSocketPlotter(args):
+  import socket_reader
+  reader = socket_reader.Reader(host=args.host, port=args.port)
+  return Plotter(reader=reader, ringLength=args.n_points, labels=[])
+
+
+def startSerialPlotter(args):
   import serial_reader
   reader = serial_reader.Reader(port=args.port, baudrate=args.baudrate)
-  plotter = Plotter(reader=reader, ringLength=args.ring_length, labels=[])
+  return Plotter(reader=reader, ringLength=args.n_points, labels=[])
 
-# Start plotter with data through pipe
-else:
+
+def startPipePlotter(args):
   import pipe_reader
   reader = pipe_reader.Reader()
-  plotter = Plotter(reader=reader, ringLength=args.ring_length, labels=[])
+  return Plotter(reader=reader, ringLength=args.n_points, labels=[])
+
+
+# Start plotter with data over socket connection
+if args.subparser == "socket":
+  plotter = startSocketPlotter(args)
+
+# Start plotter with data over serial connection
+elif args.subparser == "serial":
+  plotter = startSerialPlotter(args)
+
+# Start plotter with data through pipe
+elif args.subparser == "pipe":
+  plotter = startPipePlotter(args)
 
 while True:
   plotter.update()
