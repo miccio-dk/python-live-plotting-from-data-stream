@@ -34,7 +34,7 @@ else:
   print("Usage <reader (socket/serial/pipe)> <quaLabel> [posLabel]")
   sys.exit()
 
-plotter = QuadPlotter(reader=reader, quaLabel=quaLabel, posLabel=posLabel)
+plotter = QuadPlotter(reader=reader, quaLabel=quaLabel, posLabel=posLabel, axis=True)
 
 while True:
   plotter.update()

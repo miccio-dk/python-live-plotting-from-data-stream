@@ -18,7 +18,7 @@ mt = load_src('mathTools', 'quaternion/quaternion.py')
 
 
 class QuadPlotter(object):
-  def __init__(self, reader, quaLabel, posLabel=None):
+  def __init__(self, reader, quaLabel, posLabel=None, axis=False):
     self.reader = reader
     self.quaLabel = quaLabel
     self.posLabel = posLabel
@@ -33,11 +33,17 @@ class QuadPlotter(object):
     self.ax.set_ylabel("y")
     self.ax.set_zlabel("z")
 
-    self.ax.set_xlim3d(-0.2, 0.2)
-    self.ax.set_ylim3d(-0.2, 0.2)
-    self.ax.set_zlim3d(-0.2, 0.2)
 
-    self.ax.set_axis_off()
+    if not axis:
+      self.ax.set_xlim3d(-0.2, 0.2)
+      self.ax.set_ylim3d(-0.2, 0.2)
+      self.ax.set_zlim3d(-0.2, 0.2)
+      self.ax.set_axis_off()
+    else:
+      self.ax.set_xlim3d(-1.0, 1.0)
+      self.ax.set_ylim3d(-1.0, 1.0)
+      self.ax.set_zlim3d(-1.0, 1.0)
+
 
     self.latestPos = np.zeros(3)
     self.latestQua = None
