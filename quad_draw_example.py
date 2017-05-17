@@ -11,7 +11,7 @@ def load_src(name, fpath):
 mt = load_src('mathTools', 'quaternion/quaternion.py')
 
 
-if len(sys.argv) == 3:
+if len(sys.argv) >= 3:
   if sys.argv[1] == 'serial':
     from serial_reader import Reader
     reader = Reader(port='/dev/ttyUSB0', baudrate=57600)
@@ -24,12 +24,17 @@ if len(sys.argv) == 3:
     from pipe_reader import Reader
     reader = Reader()
 
-  label = sys.argv[2]
+  quaLabel = sys.argv[2]
+  if len(sys.argv) == 4:
+    posLabel = sys.argv[3]
+  else:
+    posLabel = None
+
 else:
-  print("Usage <reader (socket/serial/pipe)> <label>")
+  print("Usage <reader (socket/serial/pipe)> <quaLabel> [posLabel]")
   sys.exit()
 
-plotter = QuadPlotter(reader=reader, quaLabel=label)
+plotter = QuadPlotter(reader=reader, quaLabel=quaLabel, posLabel=posLabel)
 
 while True:
   plotter.update()
