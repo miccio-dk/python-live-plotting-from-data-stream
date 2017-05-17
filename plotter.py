@@ -1,230 +1,59 @@
-""" Live plotting of data received by one of the readers """
+#!/usr/bin/env python3
+import argparse
+from plot_lib import Plotter
 
-import sys
-import time
-import collections
-import numpy as np
-from matplotlib import pyplot as plt
+parent_parser = argparse.ArgumentParser(description="Tool for continuously plotting data", add_help=False)
+parent_parser.add_argument("-n", "--n_points", type=int, default=300, help="Number of packages of each type to plot (x-axis width)")
+parent_parser.add_argument("-l", "--labels", type=str, default=[], help="List of package labels to plot")
 
+parser = argparse.ArgumentParser(add_help=False)
+subparsers = parser.add_subparsers(dest="subparser")
+# Workaround for sub_parser bug
+# http://stackoverflow.com/q/23349349
+subparsers.required = True
 
-# Remove matplotlibs default keybindings
-for k, v in sorted(plt.rcParams.items()):
-    if k.startswith('keymap'):
-        plt.rcParams[k] = []
+socket_parser = subparsers.add_parser('socket', parents=[parent_parser], help="Use socket connection for acquiring data for the plot")
+socket_parser.add_argument("host", type=str, help="Address of remote")
+socket_parser.add_argument("port", type=int, help="Port on remote")
 
+socket_parser = subparsers.add_parser('serial', parents=[parent_parser], help="Use serial connection for acquiring data for the plot")
+socket_parser.add_argument("serial_port", help="Path/to/device")
+socket_parser.add_argument("baudrate", help="Device baudrate")
 
-class MissingLabelError(Exception):
-    pass
+socket_parser = subparsers.add_parser('pipe', parents=[parent_parser], help="Use pipe connection for acquiring data for the plot")
 
-
-class Plotter(object):
-    def __init__(self, labels, reader, n):
-        self.reader = reader
-        self.n = n
-        self.fig = plt.figure()
-        self.setUp(labels)
-
-        # print("\nPress x to resize y axes. Press q to quit.")
-
-        self.lastPlotUpdate = time.time()
-        self.lastStatus = time.time()
-        self.freezePlot = False
-        self.receivingCommand = False
-        self.command = ''
-
-    def setUp(self, labels):
-        if not labels:
-            print("No labels specified - Trying to find them automatically..")
-            self.labels = self.discoverLabels()
-            print("Found labels: {:}".format(', '.join(self.labels)))
-        else:
-            self.labels = labels
-
-        self.c = 0
-
-        self.axs = {}
-        self.lineSets = {}
-        self.rings = {}
-        self.xs = {}
-        self.indexes = {}
-        self.min_ = {}
-        self.max_ = {}
-        self.ls = {}
-        self.dataRate = {}
-
-        self.fig.canvas.mpl_connect('key_press_event', self.press)
-        self.fig.patch.set_facecolor('black')
-        maxTries = 10
-        for i, s in enumerate(self.labels):
-            ax = self.fig.add_subplot(len(self.labels), 1, i + 1, facecolor=(22/255,)*3)
-            ax.xaxis.label.set_color('w')
-            ax.tick_params(axis='x', colors='w')
-            ax.tick_params(axis='y', colors='w')
-            self.axs[s] = ax
-            ax.set_xlim(0, self.n)
-            ax.set_ylim(-2, 2)
-            self.lineSets[s] = []
-            for i in range(maxTries):
-                length = self.getLinesPerType(s, self.reader)
-                if length is not None:
-                    self.ls[s] = length
-                    break
-            for j in range(self.ls[s]):
-                self.lineSets[s].append(ax.plot([], [], '.', label=chr(ord('a')+j))[0])
-            ax.set_title(s)
-            ax.legend(loc=2)
-            self.rings[s] = np.zeros((self.n, self.ls[s]))
-            self.xs[s] = np.zeros(self.n)
-            self.indexes[s] = 0
-            self.min_[s] = float('inf')
-            self.max_[s] = -float('inf')
-            self.dataRate[s] = 0
-
-        print("\nNumber of data points in each label:")
-        print(self.ls)
-
-    def update(self):
-        self.getData()
-        if self.c == 100:
-            print('resetting')
-            self.reset()
-        self.c += 1
-        if time.time() - self.lastPlotUpdate > 0.03:
-            if not self.freezePlot:
-                self.updatePlotData()
-            plt.pause(0.001)
-            self.lastPlotUpdate = time.time()
-        # if time.time() - self.lastStatus > 1:
-        #     rates = ""
-        #     total = 0
-        #     for l in self.labels:
-        #         rates = rates + "{:}: {:}, ".format(l, self.dataRate[l])
-        #         total += self.dataRate[l]
-        #         self.dataRate[l] = 0
-        #     print(rates + "Total: {:}".format(total))
-        #     self.lastStatus = time.time()
-
-    def updatePlotData(self):
-        for s in self.labels:
-            for j in range(self.ls[s]):
-                self.lineSets[s][j].set_data(self.xs[s], self.rings[s][:, j])
-
-            if self.rings[s].min() < self.min_[s]:
-                self.min_[s] = self.rings[s].min()
-                self.axs[s].set_ylim(self.min_[s], self.max_[s])
-
-            if self.rings[s].max() > self.max_[s]:
-                self.max_[s] = self.rings[s].max()
-                self.axs[s].set_ylim(self.min_[s], self.max_[s])
-            self.axs[s].set_xlim(self.indexes[s] - self.n, self.indexes[s])
-
-    def reset(self):
-        for label in self.labels:
-            self.rings[label] = np.zeros((self.n, self.ls[label])) + self.rings[label][self.N, :]
-            self.xs[label] = np.zeros(self.n)
-            self.indexes[label] = 0
-            self.min_[label] = float('inf')
-            self.max_[label] = -float('inf')
-
-    def press(self, event):
-        if self.receivingCommand:
-            if event.key == 'enter':
-                print("Writing command through reader")
-                self.receivingCommand = False
-                print("Sending {:}".format(self.command))
-                self.reader.write(self.command + "\r\n")
-                self.command = ''
-            else:
-                self.command += event.key
-            return
-
-        if event.key == 'x':
-            self.reset()
-
-        elif event.key == 'p':
-            self.freezePlot = not self.freezePlot
-
-        elif event.key == 'r':
-            self.fig.clear()
-            self.setUp([])
-
-        elif event.key == 'g':
-            self.fig.savefig('{:.0f}.png'.format(time.time()), bbox_inches='tight')
-
-        elif event.key == 'enter':
-            print("listening for message until next enter key press:")
-            self.receivingCommand = True
-
-        elif event.key == 'q':
-            plt.close(event.canvas.figure)
-            self.reader.closeConnection()
-            sys.exit()
-
-    def getData(self):
-        s, data, isNumerical = self.reader()
-        if isNumerical and s in self.labels and len(data) == self.ls[s]:
-            self.N = self.indexes[s] % self.n
-            self.rings[s][self.N, :] = data
-            self.xs[s][self.N] = self.indexes[s]
-            self.indexes[s] += 1
-            self.dataRate[s] += 1
-        elif isCommand(s):
-            event = FakeKeyEvent(data[0].strip())
-            print("Received command in data stream: {}".format(event.key))
-            self.press(event)
-        else:
-            if s:
-                if len(data) == 0:
-                    print(s)
-                else:
-                    print(s, *data)
-        return s, data
-
-    def getLinesPerType(self, label, reader):
-        maxTries = 100
-        seenLabels = collections.defaultdict(int)
-        for _ in range(maxTries):
-            s, data, isNumerical = self.reader()
-            if isNumerical:
-                seenLabels[s] += 1
-                if s == label and 0 < len(data) <= 15:
-                    return len(data)
-        pretty = '\n'.join([k + ': ' + str(v) for k, v in seenLabels.items()])
-        raise MissingLabelError("Label: '{:}' not found after receiving {:} data packages\nReceived labels:\n{:}".format(label, maxTries, pretty))
-
-    def discoverLabels(self):
-        # There must be a smarter/prettier way - but it does seem to be pretty robust
-        maxTries = 100
-        print("Discovering labels by looking at the first {} packages...".format(maxTries))
-        seenLabels = collections.defaultdict(int)
-        for _ in range(maxTries):
-            s, data, isNumerical = self.reader()
-            if s:
-              if isNumerical:
-                seenLabels[s] += 1
-            else:
-                # time.sleep(0.05)
-                pass
-
-        # Good for noisy data for equal data rates:
-        # possibleLabels = [('dummy', 1)] + sorted(seenLabels.items(), key=lambda x: x[1])
-        # diffs = []
-        # for i in range(len(possibleLabels)-1):
-        #     diffs.append(possibleLabels[i+1][1] - possibleLabels[i][1])
-        # threshold = np.argmax(diffs) + 1
-        # return sorted(list(zip(*possibleLabels))[0][threshold:])
-
-        # Good for not too noisy data for different data rates
-        threshold = maxTries / 10
-        possibleLabels = [l for l, s in seenLabels.items() if s >= threshold]
-        return sorted(possibleLabels)
+args = parser.parse_args()
 
 
-class FakeKeyEvent(object):
-    def __init__(self, key):
-        self.key = key
+def startSocketPlotter(args):
+  import socket_reader
+  reader = socket_reader.Reader(host=args.host, port=args.port)
+  return Plotter(reader=reader, ringLength=args.n_points, labels=args.labels)
 
 
-def isCommand(s):
-    if s == 'COMMAND':
-        return True
+def startSerialPlotter(args):
+  import serial_reader
+  reader = serial_reader.Reader(port=args.port, baudrate=args.baudrate)
+  return Plotter(reader=reader, ringLength=args.n_points, labels=args.labels)
+
+
+def startPipePlotter(args):
+  import pipe_reader
+  reader = pipe_reader.Reader()
+  return Plotter(reader=reader, ringLength=args.n_points, labels=args.labels)
+
+
+# Start plotter with data over socket connection
+if args.subparser == "socket":
+  plotter = startSocketPlotter(args)
+
+# Start plotter with data over serial connection
+elif args.subparser == "serial":
+  plotter = startSerialPlotter(args)
+
+# Start plotter with data through pipe
+elif args.subparser == "pipe":
+  plotter = startPipePlotter(args)
+
+while True:
+  plotter.update()

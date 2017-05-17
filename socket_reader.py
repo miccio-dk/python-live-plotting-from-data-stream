@@ -28,7 +28,7 @@ class Reader(object):
         while True:
             # Read one byte at a time
             try:
-                if select.select([self.soc], [], [], 0.1)[0]:
+                if select.select([self.soc], [], [], 0.5)[0]:
                     data = self.soc.recv(1)
                     char = data.decode()
                 else:
@@ -61,7 +61,7 @@ class Reader(object):
                 break
             else:
                 rawData += char
-        return rawData, [], False
+        return rawData if raw else rawData, [], False
 
 
 if __name__ == '__main__':

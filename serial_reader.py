@@ -7,7 +7,7 @@ class Reader(object):
     """ Sets up socket server that data streaming clients can connect to """
     # Use some random port
 
-    def __init__(self, port="/dev/ttyUSB0", baudrate=115200):
+    def __init__(self, port="/dev/ttyUSB0", baudrate=57600):
         self.port = port
         self.baudrate = baudrate
         self.ser = serial.Serial(port)

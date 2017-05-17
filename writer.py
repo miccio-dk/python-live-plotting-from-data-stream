@@ -58,22 +58,29 @@ nx = 5
 ny = 3
 nz = 1
 refTime = time.time()
+
+slowRate = 30
+lastSlowPrint = 0
 while True:
-    if time.time() - refTime > 3:
+    # if time.time() - refTime > 3:
         # Test restting of figure and labels - press r
-        x2 = np.sin(t*0.01 + np.array([i/3 for i in range(3)])*np.pi)
-        writer.send("qwe,{:}".format(','.join(["{:0.4f}".format(val) for val in x2])))
-        y2 = np.exp(-(x2[:2]))
-        writer.send("asd,{:}".format(','.join(["{:0.4f}".format(val) for val in y2])))
-        z2 = np.random.rand(1)
-        writer.send("123,{:}".format(','.join(["{:0.4f}".format(val) for val in z2])))
-        t += 1
-    else:
-        x = np.sin(t*0.01 + np.array([i/nx for i in range(nx)])*np.pi)
-        writer.send("SinData,{:}".format(','.join(["{:0.4f}".format(val) for val in x])))
-        y = np.exp(-(x[:ny]))
-        writer.send("SomethingElse,{:}".format(','.join(["{:0.4f}".format(val) for val in y])))
+        # x2 = np.sin(t*0.01 + np.array([i/3 for i in range(3)])*np.pi)
+        # writer.send("qwe,{:}".format(','.join(["{:0.4f}".format(val) for val in x2])))
+        # y2 = np.exp(-(x2[:2]))
+        # writer.send("asd,{:}".format(','.join(["{:0.4f}".format(val) for val in y2])))
+        # if time.time() - lastSlowPrint > 1/slowRate:
+        #     z2 = np.random.rand(1)
+        #     writer.send("123,{:}".format(','.join(["{:0.4f}".format(val) for val in z2])))
+        #     lastSlowPrint = time.time()
+        # t += 1
+    # else:
+    x = np.sin(t*0.01 + np.array([i/nx for i in range(nx)])*np.pi)
+    writer.send("SinData,{:}".format(','.join(["{:0.4f}".format(val) for val in x])))
+    y = np.exp(-(x[:ny]))
+    writer.send("SomethingElse,{:}".format(','.join(["{:0.4f}".format(val) for val in y])))
+    if time.time() - lastSlowPrint > 1/slowRate:
         z = np.random.rand(1)
         writer.send("0,{:}".format(','.join(["{:0.4f}".format(val) for val in z])))
-        t += 1
+        lastSlowPrint = time.time()
+    t += 1
     time.sleep(0.01)
