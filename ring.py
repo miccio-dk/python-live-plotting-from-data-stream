@@ -31,6 +31,9 @@ class Ring(object):
     self.tail = -1
     self.lostTail = np.zeros(self.nY)
 
+  def newest(self):
+    return self.yData[:, self.head]
+
   def looseTail(self):
     self.lostTail = self.yData[:, self.tail].copy()
     self.yData[:, self.tail] = None

@@ -7,6 +7,15 @@ from mpl_toolkits.mplot3d import Axes3D
 from ring import Ring
 
 
+def load_src(name, fpath):
+  import os
+  import imp
+  return imp.load_source(name, os.path.join(os.path.dirname(__file__), fpath))
+
+
+mt = load_src('mathTools', 'quaternion/quaternion.py')
+
+
 def drawQuad(q, lines, pos):
   lineX = q.rotateVectors(np.array([[0.3,   0,   0], [-0.3,    0, 0]]).T)
   lineY = q.rotateVectors(np.array([[  0, 0.3,   0], [   0, -0.3, 0]]).T)
@@ -74,7 +83,9 @@ class PathPlot(object):
     self.pathLines[self.pDLabel].set_data(self.rings[self.pDLabel].yData[0, :], self.rings[self.pDLabel].yData[1, :])
     self.pathLines[self.pDLabel].set_3d_properties(self.rings[self.pDLabel].yData[2, :])
 
-    drawQuad(self.sim.quad.state.qua, self.lines[2:], self.sim.quad.state.pos)
+    newestQua = mt.Quaternion(*self.rings[self.qLabel].newest())
+    newestPos = self.rings[self.pCLabel].newest()
+    drawQuad(newestQua, self.quadLines, newestPos)
 
     plt.pause(0.001)
 
@@ -104,9 +115,10 @@ if __name__ == "__main__":
   import sys
   from pipe_reader import Reader
 
-  if not len(sys.argv) == 4:
+  print(sys.argv)
+  if not len(sys.argv) == 5:
     print("Usage: <quaternion label> <actual position label> <desired position label>")
 
-  plotter = PathPlot(Reader(), *sys.argv[1:])
+  plotter = PathPlot(Reader(), *sys.argv[2:])
   while True:
     plotter.update()
