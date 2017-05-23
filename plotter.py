@@ -110,6 +110,7 @@ class Plotter(object):
                 self.command = ''
             else:
                 self.command += event.key
+                sys.stdout.write("\r{:}".format(self.command))
             return
 
         if event.key == 'x':
