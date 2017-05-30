@@ -33,8 +33,8 @@ def startSocketPlotter(args):
 
 def startSerialPlotter(args):
   import serial_reader
-  reader = serial_reader.Reader(port=args.port, baudrate=args.baudrate)
-  return Plotter(reader=reader, ringLength=args.n_points, labels=args.labels)
+  reader = serial_reader.Reader(port=args.serial_port, baudrate=args.baudrate)
+  return Plotter(reader=reader, ringLength=args.n_points, labels=[])
 
 
 def startPipePlotter(args):
