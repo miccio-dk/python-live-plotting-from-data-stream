@@ -3,7 +3,6 @@
 import sys
 import time
 import collections
-import numpy as np
 import matplotlib
 from matplotlib import pyplot as plt
 from ring import Ring
@@ -20,7 +19,7 @@ if ops["colorPalette"] == "2.0":
   if int(matplotlib.__version__.split('.')[0]) < 2:
     matplotlib.rcParams["axes.color_cycle"] = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]
 elif ops["colorPalette"] == "colorBlind":
-  matplotlib.rcParams["axes.color_cycle"] = ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a']
+  matplotlib.rcParams["axes.color_cycle"] = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a']
 elif ops["colorPalette"] == "old":
   print("Not implemented yet")
 else:
@@ -60,8 +59,6 @@ class Plotter(object):
 
     self.freezePlot = False
     self.rings = {}
-
-
 
     self.fig.patch.set_facecolor(self.ops["windowColor"])
     for i, s in enumerate(self.labels):
