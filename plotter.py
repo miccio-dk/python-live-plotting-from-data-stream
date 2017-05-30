@@ -4,7 +4,7 @@ from plot_lib import Plotter
 
 parent_parser = argparse.ArgumentParser(description="Tool for continuously plotting data", add_help=False)
 parent_parser.add_argument("-n", "--n_points", type=int, default=300, help="Number of packages of each type to plot (x-axis width)")
-parent_parser.add_argument("-l", "--labels", type=str, default=[], help="List of package labels to plot")
+parent_parser.add_argument("-l", "--labels", type=str, default=[], nargs='*', help="List of package labels to plot")
 
 parser = argparse.ArgumentParser(add_help=False)
 subparsers = parser.add_subparsers(dest="subparser")
@@ -34,7 +34,7 @@ def startSocketPlotter(args):
 def startSerialPlotter(args):
   import serial_reader
   reader = serial_reader.Reader(port=args.serial_port, baudrate=args.baudrate)
-  return Plotter(reader=reader, ringLength=args.n_points, labels=[])
+  return Plotter(reader=reader, ringLength=args.n_points, labels=args.labels)
 
 
 def startPipePlotter(args):
