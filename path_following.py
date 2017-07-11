@@ -116,9 +116,10 @@ if __name__ == "__main__":
   from pipe_reader import Reader
 
   print(sys.argv)
-  if not len(sys.argv) == 5:
+  if not len(sys.argv) == 4:
     print("Usage: <quaternion label> <actual position label> <desired position label>")
+    exit(1)
 
-  plotter = PathPlot(Reader(), *sys.argv[2:])
+  plotter = PathPlot(Reader(), *sys.argv[1:])
   while True:
     plotter.update()
