@@ -26,7 +26,7 @@ args = parser.parse_args()
 
 
 def startSocketPlotter(args):
-  import socket_reader
+  import socket_reader_with_crc as socket_reader
   reader = socket_reader.Reader(host=args.host, port=args.port)
   return Plotter(reader=reader, ringLength=args.n_points, labels=args.labels)
 
